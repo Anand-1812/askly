@@ -28,3 +28,5 @@ const createQuestionCollection = async () => {
   databases.createIndex(db, questionCollection, "conten", IndexType.Fulltext, ["content"], ["asc"])
   ])
 }
+
+export default createQuestionCollection
