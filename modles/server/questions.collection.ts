@@ -21,12 +21,6 @@ const createQuestionCollection = async () => {
     databases.createStringAttribute(db, questionCollection, "attachmentId", 50, false),
   ]);
   console.log("Question attribute")
-
-  // create index
-  await Promise.all([
-  databases.createIndex(db, questionCollection, "title", IndexType.Fulltext, ["title"], ["asc"]),
-  databases.createIndex(db, questionCollection, "conten", IndexType.Fulltext, ["content"], ["asc"])
-  ])
 }
 
 export default createQuestionCollection
