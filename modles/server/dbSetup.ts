@@ -3,6 +3,8 @@ import { databases } from "./config";
 
 import createQuestionCollection from "./questions.collection";
 import createAnswerCollection from "./answer.collection";
+import createVoteCollection from "./vote.collection";
+import createCommentCollection from "./comments.collection";
 
 const getOrCreateDb = async () => {
   try {
@@ -15,7 +17,8 @@ const getOrCreateDb = async () => {
       await Promise.all([
         createAnswerCollection(),
         createQuestionCollection(),
-        // todo add all colection
+        createVoteCollection(),
+        createCommentCollection(),
       ])
     } catch (error) {
       console.log(`Error at db or collection: ${error}`)
