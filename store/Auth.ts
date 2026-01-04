@@ -1,9 +1,11 @@
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
-import { persist } from "zustand/middleware";
+"use client"
 
-import { AppwriteException, ID, Models } from "appwrite"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
+
 import { account } from "@/modles/client/config";
+import { AppwriteException, ID, Models } from "appwrite"
 
 
 export interface UserPrefs {
