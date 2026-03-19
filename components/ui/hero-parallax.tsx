@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  MotionValue,
+} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -41,7 +47,7 @@ export const HeroParallax = ({
     return (
         <div
             ref={ref}
-            className="relative flex h-[300vh] flex-col self-auto overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
+            className="relative flex h-[300vh] flex-col self-auto overflow-hidden py-32 antialiased [perspective:1000px] [transform-style:preserve-3d]"
         >
             {header}
             <motion.div
@@ -53,12 +59,12 @@ export const HeroParallax = ({
                 }}
                 className=""
             >
-                <motion.div className="mb-20 flex flex-row-reverse space-x-20 space-x-reverse">
+                <motion.div className="mb-16 flex flex-row-reverse space-x-10 space-x-reverse md:space-x-20">
                     {firstRow.map(product => (
                         <ProductCard product={product} translate={translateX} key={product.title} />
                     ))}
                 </motion.div>
-                <motion.div className="mb-20 flex flex-row space-x-20">
+                <motion.div className="mb-16 flex flex-row space-x-10 md:space-x-20">
                     {secondRow.map(product => (
                         <ProductCard
                             product={product}
@@ -67,7 +73,7 @@ export const HeroParallax = ({
                         />
                     ))}
                 </motion.div>
-                <motion.div className="flex flex-row-reverse space-x-20 space-x-reverse">
+                <motion.div className="flex flex-row-reverse space-x-10 space-x-reverse md:space-x-20">
                     {thirdRow.map(product => (
                         <ProductCard product={product} translate={translateX} key={product.title} />
                     ))}
@@ -94,12 +100,12 @@ export const ProductCard = ({
                 x: translate,
             }}
             whileHover={{
-                y: -20,
+                y: -14,
             }}
             key={product.title}
-            className="group/product relative h-96 w-[30rem] flex-shrink-0"
+            className="group/product relative h-80 w-[24rem] flex-shrink-0 overflow-hidden rounded-2xl border border-border/80 bg-card shadow-lg md:h-96 md:w-[30rem]"
         >
-            <Link href={product.link} className="block group-hover/product:shadow-2xl">
+            <Link href={product.link} className="block h-full w-full">
                 <Image
                     src={product.thumbnail}
                     height="600"
@@ -108,8 +114,8 @@ export const ProductCard = ({
                     alt={product.title}
                 />
             </Link>
-            <div className="pointer-events-none absolute inset-0 h-full w-full bg-black opacity-0 group-hover/product:opacity-80"></div>
-            <h2 className="absolute bottom-4 left-4 text-white opacity-0 group-hover/product:opacity-100">
+            <div className="pointer-events-none absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 transition-opacity duration-200 group-hover/product:opacity-100" />
+            <h2 className="absolute bottom-4 left-4 line-clamp-2 pr-4 text-sm font-medium text-white">
                 {product.title}
             </h2>
         </motion.div>

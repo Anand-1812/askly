@@ -87,11 +87,11 @@ const Answers = ({
     <div className="mt-2">
       {/* ── Header ─────────────────────────────────────────────── */}
       <div className="mb-6 flex items-center gap-3">
-        <IconMessageDots className="h-5 w-5 text-orange-400/70" />
-        <h2 className="text-lg font-semibold text-white/90">
+        <IconMessageDots className="h-5 w-5 text-primary/80" />
+        <h2 className="text-lg font-semibold text-foreground">
           {answers.total} {answers.total === 1 ? "Answer" : "Answers"}
         </h2>
-        <div className="flex-1 border-t border-white/8" />
+        <div className="flex-1 border-t border-border" />
       </div>
 
       {/* ── Answer list ────────────────────────────────────────── */}
@@ -99,7 +99,7 @@ const Answers = ({
         {answers.documents.map((answer: any) => (
           <div
             key={answer.$id}
-            className="group relative flex gap-4 rounded-xl border border-white/8 bg-white/[2%] p-5 transition-colors hover:border-white/12 hover:bg-white/[3%]"
+            className="group relative flex gap-4 rounded-xl border border-border bg-card/80 p-5 transition-colors hover:border-primary/30"
           >
             {/* Vote column */}
             <div className="flex shrink-0 flex-col items-center pt-1">
@@ -114,13 +114,13 @@ const Answers = ({
             {/* Content column */}
             <div className="min-w-0 flex-1">
               <MarkdownPreview
-                className="rounded-lg bg-white/[2%] p-4 text-sm"
+                className="rounded-lg border border-border bg-background/60 p-4 text-sm"
                 source={answer.content}
               />
 
               {/* Author row */}
               <div className="mt-4 flex items-center justify-between gap-3">
-                <span className="text-xs text-white/30">
+                <span className="text-xs text-muted-foreground">
                   answered{" "}
                   {convertDateToRelativeTime(new Date(answer.$createdAt))}
                 </span>
@@ -130,13 +130,13 @@ const Answers = ({
                     <button
                       onClick={() => deleteAnswer(answer.$id)}
                       title="Delete answer"
-                      className="flex h-7 w-7 items-center justify-center rounded-md border border-red-500/20 text-red-400/60 opacity-0 transition-all duration-150 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400 group-hover:opacity-100"
+                      className="flex h-7 w-7 items-center justify-center rounded-md border border-destructive/25 text-destructive/70 opacity-0 transition-all duration-150 hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
                     >
                       <IconTrash className="h-3.5 w-3.5" />
                     </button>
                   )}
 
-                  <div className="flex items-center gap-2 rounded-lg border border-white/8 bg-white/[3%] px-3 py-1.5">
+                  <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5">
                     <picture>
                       <img
                         src={avatars.getInitials(answer.author.name, 24, 24)}
@@ -149,11 +149,11 @@ const Answers = ({
                         href={`/users/${answer.author.$id}/${slugify(
                           answer.author.name,
                         )}`}
-                        className="block text-xs font-medium text-orange-400/80 transition-colors hover:text-orange-400"
+                        className="block text-xs font-medium text-primary/90 transition-colors hover:text-primary"
                       >
                         {answer.author.name}
                       </Link>
-                      <span className="mt-0.5 block text-[10px] text-white/30">
+                      <span className="mt-0.5 block text-[10px] text-muted-foreground">
                         {answer.author.reputation} rep
                       </span>
                     </div>
@@ -176,13 +176,13 @@ const Answers = ({
       {/* ── Post your answer ───────────────────────────────────── */}
       <div className="mt-10">
         <div className="mb-5 flex items-center gap-3">
-          <h2 className="text-lg font-semibold text-white/90">Your Answer</h2>
-          <div className="flex-1 border-t border-white/8" />
+          <h2 className="text-lg font-semibold text-foreground">Your Answer</h2>
+          <div className="flex-1 border-t border-border" />
         </div>
 
         {user ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[2%] transition-colors focus-within:border-white/20">
+            <div className="overflow-hidden rounded-xl border border-border bg-card transition-colors focus-within:border-primary/40">
               <RTE
                 value={newAnswer}
                 onChange={(value) => setNewAnswer(value || "")}
@@ -190,13 +190,13 @@ const Answers = ({
             </div>
 
             <div className="flex items-center justify-between gap-4">
-              <p className="text-xs text-white/30">
+              <p className="text-xs text-muted-foreground">
                 Use Markdown for code blocks, links, and formatting.
               </p>
               <button
                 type="submit"
                 disabled={isSubmitting || !newAnswer.trim()}
-                className="flex h-10 shrink-0 items-center gap-2 rounded-lg bg-orange-500 px-5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(249,115,22,0.25)] transition-all duration-150 hover:bg-orange-400 hover:shadow-[0_0_28px_rgba(249,115,22,0.4)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex h-10 shrink-0 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-md transition-all duration-150 hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {isSubmitting ? (
                   <>
@@ -219,7 +219,7 @@ const Answers = ({
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                       />
                     </svg>
-                    Posting…
+                    Posting...
                   </>
                 ) : (
                   "Post Your Answer"
@@ -228,13 +228,13 @@ const Answers = ({
             </div>
           </form>
         ) : (
-          <div className="rounded-xl border border-white/8 bg-white/[2%] p-8 text-center">
-            <p className="mb-4 text-sm text-white/50">
+          <div className="rounded-xl border border-border bg-card/70 p-8 text-center">
+            <p className="mb-4 text-sm text-muted-foreground">
               You need to be logged in to post an answer.
             </p>
             <Link
               href="/login"
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-orange-500 px-6 text-sm font-semibold text-white shadow-[0_0_20px_rgba(249,115,22,0.25)] transition-all hover:bg-orange-400"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95"
             >
               Sign in to answer
             </Link>

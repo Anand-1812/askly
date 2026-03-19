@@ -85,18 +85,18 @@ const Page = async ({
         {/* Header */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               {resolvedSearchParams.tag ? (
                 <>
                   Questions tagged{" "}
-                  <span className="rounded-lg border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-orange-400">
+                  <span className="rounded-lg border border-primary/30 bg-primary/12 px-3 py-1 text-primary">
                     {resolvedSearchParams.tag}
                   </span>
                 </>
               ) : resolvedSearchParams.search ? (
                 <>
                   Results for{" "}
-                  <span className="text-orange-400">
+                  <span className="text-primary">
                     &ldquo;{resolvedSearchParams.search}&rdquo;
                   </span>
                 </>
@@ -104,15 +104,15 @@ const Page = async ({
                 "All Questions"
               )}
             </h1>
-            <p className="mt-1.5 text-sm text-white/40">
+            <p className="mt-1.5 text-sm text-muted-foreground">
               {questions.total.toLocaleString()}{" "}
               {questions.total === 1 ? "question" : "questions"} found
             </p>
           </div>
 
           <Link href="/questions/ask" className="shrink-0">
-            <ShimmerButton className="shadow-[0_0_24px_rgba(249,115,22,0.3)]">
-              <span className="text-sm font-semibold text-white lg:text-base">
+            <ShimmerButton className="shadow-md">
+              <span className="text-sm font-semibold text-primary-foreground lg:text-base">
                 Ask a question
               </span>
             </ShimmerButton>
@@ -121,24 +121,24 @@ const Page = async ({
 
         {/* Stats strip */}
         <div className="mb-6 flex flex-wrap gap-4">
-          <div className="flex items-center gap-2 rounded-lg border border-white/8 bg-white/[3%] px-4 py-2 text-sm text-white/50">
-            <IconListDetails className="h-4 w-4 text-orange-400/70" />
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground">
+            <IconListDetails className="h-4 w-4 text-primary/80" />
             <span>
-              <span className="font-semibold text-white/80">
+              <span className="font-semibold text-foreground">
                 {questions.total}
               </span>{" "}
               questions
             </span>
           </div>
-          <div className="flex items-center gap-2 rounded-lg border border-white/8 bg-white/[3%] px-4 py-2 text-sm text-white/50">
-            <IconMessageCircle className="h-4 w-4 text-emerald-400/70" />
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground">
+            <IconMessageCircle className="h-4 w-4 text-chart-2/80" />
             <span>
               Page{" "}
-              <span className="font-semibold text-white/80">
+              <span className="font-semibold text-foreground">
                 {resolvedSearchParams.page}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-white/80">
+              <span className="font-semibold text-foreground">
                 {Math.ceil(questions.total / 25) || 1}
               </span>
             </span>
@@ -146,7 +146,7 @@ const Page = async ({
           {isFiltered && (
             <Link
               href="/questions"
-              className="flex items-center gap-2 rounded-lg border border-white/8 bg-white/[3%] px-4 py-2 text-sm text-white/50 transition-all hover:border-white/15 hover:text-white/80"
+              className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition-all hover:border-primary/35 hover:text-primary"
             >
               Clear filters ×
             </Link>
@@ -159,23 +159,23 @@ const Page = async ({
         </div>
 
         {/* Divider */}
-        <div className="mb-6 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="mb-6 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
         {/* Questions list */}
         {questions.documents.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-white/8 bg-white/[2%] py-20 text-center">
-            <IconArrowUp className="mb-4 h-12 w-12 text-white/10" />
-            <h3 className="mb-2 text-lg font-semibold text-white/50">
+          <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card/80 py-20 text-center">
+            <IconArrowUp className="mb-4 h-12 w-12 text-muted-foreground/40" />
+            <h3 className="mb-2 text-lg font-semibold text-foreground/80">
               No questions found
             </h3>
-            <p className="mb-6 max-w-sm text-sm text-white/30">
+            <p className="mb-6 max-w-sm text-sm text-muted-foreground">
               {isFiltered
                 ? "Try adjusting your search or clearing the filters."
                 : "Be the first to ask a question!"}
             </p>
             <Link href="/questions/ask">
               <ShimmerButton>
-                <span className="text-sm font-semibold text-white">
+                <span className="text-sm font-semibold text-primary-foreground">
                   Ask a question
                 </span>
               </ShimmerButton>

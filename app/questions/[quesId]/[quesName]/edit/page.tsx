@@ -11,7 +11,7 @@ const Page = async ({
     const { quesId } = await params;
     const question = await databases.getDocument(db, questionCollection, quesId);
 
-    return <EditQues question={question} />;
+    return <EditQues question={question as any} />;
 };
 
 export default Page;

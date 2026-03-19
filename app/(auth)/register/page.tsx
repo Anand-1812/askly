@@ -14,8 +14,8 @@ import Link from "next/link";
 
 const BottomGradient = () => (
   <>
-    <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-    <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-orange-400 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
+    <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+    <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
   </>
 );
 
@@ -72,23 +72,23 @@ export default function Register() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-white/[3%] p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_32px_64px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card/85 p-8 shadow-xl backdrop-blur-xl">
       {/* Header */}
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-2">
-          <IconSparkles className="h-5 w-5 text-orange-500" />
-          <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-sm font-bold tracking-tight text-transparent">
+          <IconSparkles className="h-5 w-5 text-primary" />
+          <span className="bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-sm font-bold tracking-tight text-transparent">
             Askly
           </span>
         </div>
-        <h2 className="text-2xl font-bold tracking-tight text-white">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">
           Create your account
         </h2>
-        <p className="mt-1.5 text-sm text-white/50">
+        <p className="mt-1.5 text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="text-orange-400 transition-colors hover:text-orange-300"
+            className="text-primary transition-colors hover:brightness-110"
           >
             Sign in
           </Link>
@@ -97,7 +97,7 @@ export default function Register() {
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="mb-5 rounded-lg border border-destructive/25 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground/85">
           {error}
         </div>
       )}
@@ -105,7 +105,7 @@ export default function Register() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <LabelInputContainer>
-            <Label htmlFor="firstname" className="text-white/70">
+            <Label htmlFor="firstname" className="text-foreground/80">
               First name
             </Label>
             <Input
@@ -117,7 +117,7 @@ export default function Register() {
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label htmlFor="lastname" className="text-white/70">
+            <Label htmlFor="lastname" className="text-foreground/80">
               Last name
             </Label>
             <Input
@@ -131,7 +131,7 @@ export default function Register() {
         </div>
 
         <LabelInputContainer>
-          <Label htmlFor="email" className="text-white/70">
+          <Label htmlFor="email" className="text-foreground/80">
             Email address
           </Label>
           <Input
@@ -144,7 +144,7 @@ export default function Register() {
         </LabelInputContainer>
 
         <LabelInputContainer>
-          <Label htmlFor="password" className="text-white/70">
+          <Label htmlFor="password" className="text-foreground/80">
             Password
           </Label>
           <Input
@@ -157,7 +157,7 @@ export default function Register() {
         </LabelInputContainer>
 
         <button
-          className="group/btn relative mt-2 flex h-11 w-full items-center justify-center rounded-lg bg-orange-500 font-semibold text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all duration-200 hover:bg-orange-400 hover:shadow-[0_0_28px_rgba(249,115,22,0.5)] disabled:opacity-50"
+          className="group/btn relative mt-2 flex h-11 w-full items-center justify-center rounded-lg bg-primary font-semibold text-primary-foreground shadow-md transition-all duration-200 hover:brightness-95 disabled:opacity-50"
           type="submit"
           disabled={isLoading}
         >
@@ -185,17 +185,17 @@ export default function Register() {
               Creating account...
             </span>
           ) : (
-            "Create account →"
+            "Create account ->"
           )}
           <BottomGradient />
         </button>
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10" />
+            <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-black px-3 text-white/40">
+            <span className="bg-background px-3 text-muted-foreground">
               or continue with
             </span>
           </div>
@@ -203,7 +203,7 @@ export default function Register() {
 
         <div className="grid grid-cols-2 gap-3">
           <button
-            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 text-sm font-medium text-white/70 transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white disabled:opacity-50"
+            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
             type="button"
             disabled={isLoading}
           >
@@ -212,7 +212,7 @@ export default function Register() {
             <BottomGradient />
           </button>
           <button
-            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 text-sm font-medium text-white/70 transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white disabled:opacity-50"
+            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
             type="button"
             disabled={isLoading}
           >
@@ -222,10 +222,10 @@ export default function Register() {
           </button>
         </div>
 
-        <p className="pt-2 text-center text-xs text-white/30">
+        <p className="pt-2 text-center text-xs text-muted-foreground">
           By creating an account you agree to our{" "}
-          <span className="text-white/50">Terms of Service</span> and{" "}
-          <span className="text-white/50">Privacy Policy</span>.
+          <span className="text-foreground/75">Terms of Service</span> and{" "}
+          <span className="text-foreground/75">Privacy Policy</span>.
         </p>
       </form>
     </div>

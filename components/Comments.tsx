@@ -82,31 +82,31 @@ const Comments = ({
     <div className={cn("mt-4", className)}>
       {/* Comment thread */}
       {comments.documents.length > 0 && (
-        <div className="mb-3 divide-y divide-white/5 rounded-lg border border-white/8 bg-white/[2%]">
+        <div className="mb-3 divide-y divide-border/70 rounded-lg border border-border bg-card/70">
           {comments.documents.map((comment: any) => (
             <div
               key={comment.$id}
-              className="group flex items-start gap-3 px-4 py-3 transition-colors hover:bg-white/[2%]"
+              className="group flex items-start gap-3 px-4 py-3 transition-colors hover:bg-secondary/50"
             >
-              <IconMessageCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-white/20" />
-              <p className="min-w-0 flex-1 text-sm leading-relaxed text-white/65">
-                {comment.content} <span className="mx-1 text-white/20">—</span>
+              <IconMessageCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/70" />
+              <p className="min-w-0 flex-1 text-sm leading-relaxed text-foreground/80">
+                {comment.content} <span className="mx-1 text-muted-foreground">-</span>
                 <Link
                   href={`/users/${comment.authorId}/${slugify(
                     comment.author.name,
                   )}`}
-                  className="font-medium text-orange-400/80 transition-colors hover:text-orange-400"
+                  className="font-medium text-primary/90 transition-colors hover:text-primary"
                 >
                   {comment.author.name}
                 </Link>
-                <span className="ml-2 text-xs text-white/25">
+                <span className="ml-2 text-xs text-muted-foreground">
                   {convertDateToRelativeTime(new Date(comment.$createdAt))}
                 </span>
               </p>
               {user?.$id === comment.authorId && (
                 <button
                   onClick={() => deleteComment(comment.$id)}
-                  className="mt-0.5 shrink-0 text-white/20 opacity-0 transition-all duration-150 hover:text-red-400 group-hover:opacity-100"
+                  className="mt-0.5 shrink-0 text-muted-foreground opacity-0 transition-all duration-150 hover:text-destructive group-hover:opacity-100"
                   title="Delete comment"
                 >
                   <IconTrash className="h-3.5 w-3.5" />
@@ -121,11 +121,11 @@ const Comments = ({
       {showForm ? (
         <form
           onSubmit={handleSubmit}
-          className="rounded-lg border border-white/10 bg-white/[3%] p-3"
+          className="rounded-lg border border-border bg-card p-3"
         >
           <textarea
             ref={textareaRef}
-            className="w-full resize-none rounded-md border-0 bg-transparent text-sm text-white/85 outline-none placeholder:text-white/25 focus:outline-none"
+            className="w-full resize-none rounded-md border-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70 focus:outline-none"
             rows={3}
             placeholder="Write a comment…"
             value={newComment}
@@ -142,8 +142,8 @@ const Comments = ({
             }}
           />
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-xs text-white/25">
-              ⌘ + Enter to submit · Esc to cancel
+            <span className="text-xs text-muted-foreground">
+              Ctrl/Cmd + Enter to submit - Esc to cancel
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -152,14 +152,14 @@ const Comments = ({
                   setShowForm(false);
                   setNewComment("");
                 }}
-                className="rounded-md px-3 py-1.5 text-xs font-medium text-white/40 transition-colors hover:text-white/70"
+                className="rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || !newComment.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-orange-500/20 px-3 py-1.5 text-xs font-semibold text-orange-400 transition-all duration-150 hover:bg-orange-500/30 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1.5 rounded-md bg-primary/15 px-3 py-1.5 text-xs font-semibold text-primary transition-all duration-150 hover:bg-primary/25 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <IconSend className="h-3 w-3" />
                 {isSubmitting ? "Posting…" : "Post"}
@@ -170,7 +170,7 @@ const Comments = ({
       ) : (
         <button
           onClick={handleShowForm}
-          className="text-xs text-white/30 transition-colors hover:text-orange-400"
+          className="text-xs text-muted-foreground transition-colors hover:text-primary"
         >
           + Add a comment
         </button>

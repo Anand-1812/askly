@@ -88,9 +88,9 @@ const Page = async ({
       label: "All",
       value: undefined,
       href: `/users/${userId}/${userSlug}/votes`,
-      activeClass: "border-white/20 bg-white/10 text-white",
+      activeClass: "border-border bg-card text-foreground",
       inactiveClass:
-        "border-white/8 bg-white/[3%] text-white/50 hover:border-white/15 hover:bg-white/[6%] hover:text-white/80",
+        "border-border bg-card/80 text-muted-foreground hover:border-primary/25 hover:text-foreground",
     },
     {
       label: "Upvoted",
@@ -98,9 +98,9 @@ const Page = async ({
       href: `/users/${userId}/${userSlug}/votes?voteStatus=upvoted`,
       icon: <IconArrowUp className="h-3.5 w-3.5" />,
       activeClass:
-        "border-orange-500/40 bg-orange-500/15 text-orange-400 shadow-[inset_0_0_0_1px_rgba(249,115,22,0.2)]",
+        "border-primary/40 bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(249,184,79,0.2)]",
       inactiveClass:
-        "border-white/8 bg-white/[3%] text-white/50 hover:border-orange-500/20 hover:bg-orange-500/8 hover:text-orange-400/80",
+        "border-border bg-card/80 text-muted-foreground hover:border-primary/30 hover:bg-primary/8 hover:text-primary",
     },
     {
       label: "Downvoted",
@@ -108,9 +108,9 @@ const Page = async ({
       href: `/users/${userId}/${userSlug}/votes?voteStatus=downvoted`,
       icon: <IconArrowDown className="h-3.5 w-3.5" />,
       activeClass:
-        "border-red-500/40 bg-red-500/15 text-red-400 shadow-[inset_0_0_0_1px_rgba(239,68,68,0.2)]",
+        "border-destructive/40 bg-destructive/15 text-destructive shadow-[inset_0_0_0_1px_rgba(239,68,68,0.2)]",
       inactiveClass:
-        "border-white/8 bg-white/[3%] text-white/50 hover:border-red-500/20 hover:bg-red-500/8 hover:text-red-400/80",
+        "border-border bg-card/80 text-muted-foreground hover:border-destructive/30 hover:bg-destructive/8 hover:text-destructive",
     },
   ];
 
@@ -118,8 +118,8 @@ const Page = async ({
     <div>
       {/* Header row */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-white/40">
-          <span className="font-semibold text-white/80">
+        <p className="text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">
             {votes.total.toLocaleString()}
           </span>{" "}
           {votes.total === 1 ? "vote" : "votes"}
@@ -147,12 +147,12 @@ const Page = async ({
 
       {/* Vote list */}
       {votes.documents.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-white/8 bg-white/[2%] py-16 text-center">
-          <IconMoodEmpty className="mb-3 h-10 w-10 text-white/10" />
-          <h3 className="mb-1 text-sm font-semibold text-white/40">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card/70 py-16 text-center">
+          <IconMoodEmpty className="mb-3 h-10 w-10 text-muted-foreground/50" />
+          <h3 className="mb-1 text-sm font-semibold text-foreground/80">
             No votes yet
           </h3>
-          <p className="text-xs text-white/25">
+          <p className="text-xs text-muted-foreground">
             {activeFilter
               ? `No ${activeFilter} votes to show.`
               : "Start voting on questions and answers to track them here."}
@@ -165,14 +165,14 @@ const Page = async ({
             return (
               <div
                 key={vote.$id}
-                className="group flex items-start gap-4 rounded-xl border border-white/8 bg-white/[2%] p-4 transition-all duration-150 hover:border-white/12 hover:bg-white/[3%]"
+                className="group flex items-start gap-4 rounded-xl border border-border bg-card/75 p-4 transition-all duration-150 hover:border-primary/30"
               >
                 {/* Vote badge */}
                 <div
                   className={`mt-0.5 flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold ${
                     isUpvote
-                      ? "border-orange-500/30 bg-orange-500/10 text-orange-400"
-                      : "border-red-500/30 bg-red-500/10 text-red-400"
+                      ? "border-primary/30 bg-primary/12 text-primary"
+                      : "border-destructive/30 bg-destructive/12 text-destructive"
                   }`}
                 >
                   {isUpvote ? (
@@ -194,19 +194,19 @@ const Page = async ({
                       )}`}
                       className="group/link flex min-w-0 items-center gap-1.5"
                     >
-                      <span className="truncate text-sm font-medium text-white/80 transition-colors duration-150 group-hover/link:text-orange-400">
+                      <span className="truncate text-sm font-medium text-foreground/90 transition-colors duration-150 group-hover/link:text-primary">
                         {vote.question.title}
                       </span>
-                      <IconExternalLink className="h-3 w-3 shrink-0 text-white/20 opacity-0 transition-all duration-150 group-hover/link:text-orange-400/60 group-hover/link:opacity-100" />
+                      <IconExternalLink className="h-3 w-3 shrink-0 text-muted-foreground opacity-0 transition-all duration-150 group-hover/link:text-primary/70 group-hover/link:opacity-100" />
                     </Link>
                   </div>
 
-                  <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/30">
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                     <span
                       className={`rounded-md border px-1.5 py-0.5 text-[10px] font-medium ${
                         vote.type === "question"
-                          ? "border-blue-500/20 bg-blue-500/8 text-blue-400/70"
-                          : "border-purple-500/20 bg-purple-500/8 text-purple-400/70"
+                          ? "border-chart-4/25 bg-chart-4/10 text-chart-4"
+                          : "border-chart-5/25 bg-chart-5/10 text-chart-5"
                       }`}
                     >
                       {vote.type === "question" ? "Question" : "Answer"}

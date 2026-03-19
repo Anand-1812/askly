@@ -37,27 +37,43 @@ const Page = async ({
     );
 
     return (
-        <div className="px-4">
-            <div className="mb-4">
-                <p>{answers.total} answers</p>
-            </div>
-            <div className="mb-4 max-w-3xl space-y-6">
-                {answers.documents.map(ans => (
-                    <div key={ans.$id}>
-                        <div className="max-h-40 overflow-auto">
-                            <MarkdownPreview source={ans.content} className="rounded-lg p-4" />
-                        </div>
-                        <Link
-                            href={`/questions/${ans.questionId}/${slugify(ans.question.title)}`}
-                            className="mt-3 inline-block shrink-0 rounded bg-orange-500 px-4 py-2 font-bold text-white hover:bg-orange-600"
-                        >
-                            Question
-                        </Link>
-                    </div>
-                ))}
-            </div>
-            <Pagination total={answers.total} limit={25} />
+    <div className="space-y-5">
+      <div className="rounded-xl border border-border bg-card/75 px-4 py-3">
+        <p className="text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">
+            {answers.total.toLocaleString()}
+          </span>{" "}
+          {answers.total === 1 ? "answer" : "answers"} posted
+        </p>
+      </div>
+
+      {answers.documents.length === 0 ? (
+        <div className="rounded-xl border border-border bg-card/70 p-10 text-center text-sm text-muted-foreground">
+          No answers yet.
         </div>
+      ) : (
+        <div className="max-w-4xl space-y-4">
+          {answers.documents.map((ans) => (
+            <div
+              key={ans.$id}
+              className="rounded-xl border border-border bg-card/80 p-4 shadow-sm"
+            >
+              <div className="max-h-52 overflow-auto rounded-lg border border-border bg-background/60 p-1">
+                <MarkdownPreview source={ans.content} className="rounded-lg p-4" />
+              </div>
+              <Link
+                href={`/questions/${ans.questionId}/${slugify(ans.question.title)}`}
+                className="mt-3 inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-all hover:brightness-95"
+              >
+                View question
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {answers.total > 25 && <Pagination total={answers.total} limit={25} />}
+    </div>
     );
 };
 

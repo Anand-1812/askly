@@ -52,14 +52,14 @@ const LatestQuestions = async () => {
 
     if (!hydratedQuestions) {
         return (
-            <div className="rounded-xl border border-white/20 bg-white/5 p-4 text-sm text-white/70">
+            <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive-foreground/85">
                 Could not load latest questions yet. Check Appwrite database IDs and API key.
             </div>
         );
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4">
             {hydratedQuestions.map(question => (
                 <QuestionCard key={String(question.$id)} ques={question as any} />
             ))}

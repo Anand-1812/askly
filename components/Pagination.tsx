@@ -48,8 +48,8 @@ const Pagination = ({
         className={cn(
           "flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-sm font-medium transition-all duration-150",
           isPrevDisabled
-            ? "cursor-not-allowed border-white/5 text-white/20"
-            : "border-white/10 bg-white/[3%] text-white/70 hover:border-white/20 hover:bg-white/[6%] hover:text-white",
+            ? "cursor-not-allowed border-border/60 text-muted-foreground/50"
+            : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary",
         )}
       >
         <IconChevronLeft className="h-4 w-4" />
@@ -79,8 +79,8 @@ const Pagination = ({
               className={cn(
                 "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all duration-150",
                 isActive
-                  ? "bg-orange-500 text-white shadow-[0_0_16px_rgba(249,115,22,0.35)]"
-                  : "border border-white/8 bg-white/[3%] text-white/50 hover:border-white/15 hover:bg-white/[6%] hover:text-white",
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "border border-border bg-card text-muted-foreground hover:border-primary/35 hover:text-primary",
               )}
             >
               {pageNum}
@@ -95,8 +95,8 @@ const Pagination = ({
         className={cn(
           "flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-sm font-medium transition-all duration-150",
           isNextDisabled
-            ? "cursor-not-allowed border-white/5 text-white/20"
-            : "border-white/10 bg-white/[3%] text-white/70 hover:border-white/20 hover:bg-white/[6%] hover:text-white",
+            ? "cursor-not-allowed border-border/60 text-muted-foreground/50"
+            : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary",
         )}
       >
         <span>Next</span>

@@ -1,14 +1,13 @@
 "use client";
 
 import RTE from "@/components/RTE";
-import Meteors from "@/components/magicui/meteors";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/Auth";
 import { cn } from "@/lib/utils";
 import slugify from "@/utils/slugify";
-import { IconX } from "@tabler/icons-react";
-import { Models, ID } from "appwrite";
+import { IconPlus, IconX } from "@tabler/icons-react";
+import { ID } from "appwrite";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { databases, storage } from "@/models/client/config";
@@ -29,11 +28,10 @@ const LabelInputContainer = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col space-y-2 overflow-hidden rounded-xl border border-white/20 bg-slate-950 p-4",
+        "relative flex w-full flex-col gap-2 rounded-xl border border-border bg-card/75 p-5 shadow-sm",
         className,
       )}
     >
-      <Meteors number={30} />
       {children}
     </div>
   );
@@ -177,16 +175,16 @@ const QuestionForm = ({ question }: { question?: any }) => {
     <form className="space-y-4" onSubmit={submit}>
       {error && (
         <LabelInputContainer>
-          <div className="text-center">
-            <span className="text-red-500">{error}</span>
+          <div className="rounded-md border border-destructive/25 bg-destructive/10 p-3 text-sm text-destructive-foreground/90">
+            {error}
           </div>
         </LabelInputContainer>
       )}
       <LabelInputContainer>
-        <Label htmlFor="title">
-          Title Address
+        <Label htmlFor="title" className="text-sm text-foreground">
+          Title
           <br />
-          <small>
+          <small className="text-xs font-normal text-muted-foreground">
             Be specific and imagine you&apos;re asking a question to another
             person.
           </small>
@@ -196,33 +194,39 @@ const QuestionForm = ({ question }: { question?: any }) => {
           name="title"
           placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
           type="text"
+          maxLength={220}
           value={formData.title}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, title: e.target.value }))
           }
         />
+        <span className="text-right text-xs text-muted-foreground">
+          {formData.title.length}/220
+        </span>
       </LabelInputContainer>
       <LabelInputContainer>
-        <Label htmlFor="content">
+        <Label htmlFor="content" className="text-sm text-foreground">
           What are the details of your problem?
           <br />
-          <small>
+          <small className="text-xs font-normal text-muted-foreground">
             Introduce the problem and expand on what you put in the title.
             Minimum 20 characters.
           </small>
         </Label>
-        <RTE
-          value={formData.content}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, content: value || "" }))
-          }
-        />
+        <div className="overflow-hidden rounded-lg border border-border">
+          <RTE
+            value={formData.content}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, content: value || "" }))
+            }
+          />
+        </div>
       </LabelInputContainer>
       <LabelInputContainer>
-        <Label htmlFor="image">
-          Image
+        <Label htmlFor="image" className="text-sm text-foreground">
+          Attachment
           <br />
-          <small>
+          <small className="text-xs font-normal text-muted-foreground">
             Add image to your question to make it more clear and easier to
             understand.
           </small>
@@ -244,15 +248,15 @@ const QuestionForm = ({ question }: { question?: any }) => {
         />
       </LabelInputContainer>
       <LabelInputContainer>
-        <Label htmlFor="tag">
+        <Label htmlFor="tag" className="text-sm text-foreground">
           Tags
           <br />
-          <small>
+          <small className="text-xs font-normal text-muted-foreground">
             Add tags to describe what your question is about. Start typing to
             see suggestions.
           </small>
         </Label>
-        <div className="flex w-full gap-4">
+        <div className="flex w-full gap-3">
           <div className="w-full">
             <Input
               id="tag"
@@ -264,56 +268,51 @@ const QuestionForm = ({ question }: { question?: any }) => {
             />
           </div>
           <button
-            className="relative shrink-0 rounded-full border border-slate-600 bg-slate-700 px-8 py-2 text-sm text-white transition duration-200 hover:shadow-2xl hover:shadow-white/[0.1]"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border border-border bg-secondary px-4 text-sm font-medium text-foreground transition-all hover:border-primary/40 hover:text-primary"
             type="button"
             onClick={() => {
-              if (tag.length === 0) return;
+              if (tag.trim().length === 0) return;
               setFormData((prev) => ({
                 ...prev,
-                tags: new Set([...Array.from(prev.tags), tag]),
+                tags: new Set([...Array.from(prev.tags), tag.trim()]),
               }));
               setTag(() => "");
             }}
           >
-            <div className="absolute inset-x-0 -top-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-teal-500 to-transparent shadow-2xl" />
-            <span className="relative z-20">Add</span>
+            <IconPlus className="h-4 w-4" />
+            Add
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
           {Array.from(formData.tags).map((tag, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="group relative inline-block rounded-full bg-slate-800 p-px text-xs font-semibold leading-6 text-white no-underline shadow-2xl shadow-zinc-900">
-                <span className="absolute inset-0 overflow-hidden rounded-full">
-                  <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </span>
-                <div className="relative z-10 flex items-center space-x-2 rounded-full bg-zinc-950 px-4 py-0.5 ring-1 ring-white/10">
-                  <span>{tag}</span>
-                  <button
-                    onClick={() => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        tags: new Set(
-                          Array.from(prev.tags).filter((t) => t !== tag),
-                        ),
-                      }));
-                    }}
-                    type="button"
-                  >
-                    <IconX size={12} />
-                  </button>
-                </div>
-                <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-              </div>
+            <div
+              key={index}
+              className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+            >
+              <span>{tag}</span>
+              <button
+                onClick={() => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    tags: new Set(Array.from(prev.tags).filter((t) => t !== tag)),
+                  }));
+                }}
+                type="button"
+                className="rounded-full p-0.5 transition-colors hover:bg-primary/20"
+                aria-label={`Remove tag ${tag}`}
+              >
+                <IconX size={12} />
+              </button>
             </div>
           ))}
         </div>
       </LabelInputContainer>
       <button
-        className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+        className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
         disabled={loading}
       >
-        {question ? "Update" : "Publish"}
+        {loading ? (question ? "Updating..." : "Publishing...") : question ? "Update Question" : "Publish Question"}
       </button>
     </form>
   );

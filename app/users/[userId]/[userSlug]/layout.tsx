@@ -24,15 +24,15 @@ const Layout = async ({
     <div className="min-h-screen">
       <div className="container mx-auto px-4 pb-24 pt-32">
         {/* ── Profile header ───────────────────────────────────── */}
-        <div className="mb-8 overflow-hidden rounded-2xl border border-white/8 bg-white/[2%]">
+        <div className="mb-8 overflow-hidden rounded-2xl border border-border bg-card/80 shadow-lg">
           {/* Banner */}
-          <div className="h-24 bg-gradient-to-r from-orange-500/10 via-purple-500/10 to-cyan-500/10" />
+          <div className="h-24 bg-gradient-to-r from-primary/25 via-chart-2/20 to-chart-3/20" />
 
           <div className="relative px-6 pb-6">
             {/* Avatar — overlaps the banner */}
             <div className="-mt-10 mb-4 flex items-end justify-between">
               <div className="relative">
-                <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-black shadow-[0_0_0_1px_rgba(255,255,255,0.1)]">
+                <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-background shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
                   <picture className="block h-full w-full">
                     <img
                       src={
@@ -48,7 +48,7 @@ const Layout = async ({
                   </picture>
                 </div>
                 {/* Online indicator */}
-                <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-black bg-emerald-500">
+                <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-background bg-chart-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-200" />
                 </span>
               </div>
@@ -58,34 +58,34 @@ const Layout = async ({
 
             {/* Name + email */}
             <div className="mb-4">
-              <h1 className="text-2xl font-bold tracking-tight text-white">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
                 {user.name}
               </h1>
-              <p className="mt-0.5 text-sm text-white/40">{user.email}</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">{user.email}</p>
             </div>
 
             {/* Meta chips */}
             <div className="flex flex-wrap gap-2">
-              <div className="flex items-center gap-1.5 rounded-lg border border-orange-500/20 bg-orange-500/8 px-3 py-1.5 text-xs font-medium text-orange-400">
+              <div className="flex items-center gap-1.5 rounded-lg border border-primary/25 bg-primary/12 px-3 py-1.5 text-xs font-medium text-primary">
                 <IconStarFilled className="h-3 w-3" />
                 <span>{user.prefs.reputation} reputation</span>
               </div>
 
-              <div className="flex items-center gap-1.5 rounded-lg border border-white/8 bg-white/[3%] px-3 py-1.5 text-xs text-white/50">
-                <IconUserFilled className="h-3 w-3 text-white/30" />
+              <div className="flex items-center gap-1.5 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
+                <IconUserFilled className="h-3 w-3 text-muted-foreground" />
                 <span>
                   Joined{" "}
-                  <span className="text-white/70">
+                  <span className="text-foreground/80">
                     {convertDateToRelativeTime(new Date(user.$createdAt))}
                   </span>
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 rounded-lg border border-white/8 bg-white/[3%] px-3 py-1.5 text-xs text-white/50">
-                <IconClockFilled className="h-3 w-3 text-white/30" />
+              <div className="flex items-center gap-1.5 rounded-lg border border-border bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
+                <IconClockFilled className="h-3 w-3 text-muted-foreground" />
                 <span>
                   Active{" "}
-                  <span className="text-white/70">
+                  <span className="text-foreground/80">
                     {convertDateToRelativeTime(new Date(user.$updatedAt))}
                   </span>
                 </span>

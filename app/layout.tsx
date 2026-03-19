@@ -3,8 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "./components/Header";
+import ThemeProvider from "./components/ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Askly – Ask. Answer. Evolve.",
@@ -20,15 +24,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
         className={cn(
+          inter.variable,
           inter.className,
-          "min-h-screen bg-black text-white antialiased",
+          "min-h-screen bg-background text-foreground antialiased",
         )}
       >
-        <Header />
-        {children}
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

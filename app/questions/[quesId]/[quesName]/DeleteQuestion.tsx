@@ -7,28 +7,36 @@ import { IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const DeleteQuestion = ({ questionId, authorId }: { questionId: string; authorId: string }) => {
-    const router = useRouter();
-    const { user } = useAuthStore();
+const DeleteQuestion = ({
+  questionId,
+  authorId,
+}: {
+  questionId: string;
+  authorId: string;
+}) => {
+  const router = useRouter();
+  const { user } = useAuthStore();
 
-    const deleteQuestion = async () => {
-        try {
-            await databases.deleteDocument(db, questionCollection, questionId);
+  const deleteQuestion = async () => {
+    if (!confirm("Delete this question? This action cannot be undone.")) return;
 
-            router.push("/questions");
-        } catch (error: any) {
-            window.alert(error?.message || "Something went wrong");
-        }
-    };
+    try {
+      await databases.deleteDocument(db, questionCollection, questionId);
+      router.push("/questions");
+    } catch (error: any) {
+      window.alert(error?.message || "Something went wrong");
+    }
+  };
 
-    return user?.$id === authorId ? (
-        <button
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-red-500 p-1 text-red-500 duration-200 hover:bg-red-500/10"
-            onClick={deleteQuestion}
-        >
-            <IconTrash className="h-4 w-4" />
-        </button>
-    ) : null;
+  return user?.$id === authorId ? (
+    <button
+      className="flex h-9 w-9 items-center justify-center rounded-lg border border-destructive/35 bg-destructive/10 p-1 text-destructive transition-all duration-200 hover:border-destructive/50 hover:bg-destructive/20"
+      onClick={deleteQuestion}
+      title="Delete question"
+    >
+      <IconTrash className="h-4 w-4" />
+    </button>
+  ) : null;
 };
 
 export default DeleteQuestion;

@@ -5,7 +5,7 @@ import { db, voteCollection } from "@/models/name";
 import { useAuthStore } from "@/store/Auth";
 import { cn } from "@/lib/utils";
 import { IconCaretUpFilled, IconCaretDownFilled } from "@tabler/icons-react";
-import { ID, Models, Query } from "appwrite";
+import { Models, Query } from "appwrite";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -108,8 +108,8 @@ const VoteButtons = ({
         className={cn(
           "flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-150",
           isUpvoted
-            ? "border-orange-500/60 bg-orange-500/15 text-orange-400 shadow-[0_0_12px_rgba(249,115,22,0.2)]"
-            : "border-white/10 bg-white/[3%] text-white/40 hover:border-orange-500/40 hover:bg-orange-500/10 hover:text-orange-400",
+            ? "border-primary/60 bg-primary/15 text-primary shadow-sm"
+            : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:bg-primary/10 hover:text-primary",
         )}
       >
         <IconCaretUpFilled className="h-4 w-4" />
@@ -120,10 +120,10 @@ const VoteButtons = ({
         className={cn(
           "min-w-[2rem] text-center text-sm font-semibold tabular-nums",
           voteResult > 0
-            ? "text-orange-400"
+            ? "text-primary"
             : voteResult < 0
-              ? "text-red-400"
-              : "text-white/50",
+              ? "text-destructive"
+              : "text-muted-foreground",
         )}
       >
         {voteResult > 0 ? `+${voteResult}` : voteResult}
@@ -136,8 +136,8 @@ const VoteButtons = ({
         className={cn(
           "flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-150",
           isDownvoted
-            ? "border-red-500/60 bg-red-500/15 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.2)]"
-            : "border-white/10 bg-white/[3%] text-white/40 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400",
+            ? "border-destructive/60 bg-destructive/15 text-destructive shadow-sm"
+            : "border-border bg-card text-muted-foreground hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive",
         )}
       >
         <IconCaretDownFilled className="h-4 w-4" />

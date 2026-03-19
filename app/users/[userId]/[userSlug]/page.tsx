@@ -1,10 +1,14 @@
 import { databases, users } from "@/models/server/config";
 import { UserPrefs } from "@/store/Auth";
 import React from "react";
-import { MagicCard, MagicContainer } from "@/components/magicui/magic-card";
 import NumberTicker from "@/components/magicui/number-ticker";
 import { answerCollection, db, questionCollection } from "@/models/name";
 import { Query } from "node-appwrite";
+import {
+  IconSparkles,
+  IconQuestionMark,
+  IconMessageCircle,
+} from "@tabler/icons-react";
 
 const Page = async ({
     params,
@@ -24,37 +28,47 @@ const Page = async ({
         ]),
     ]);
 
-    return (
-        <MagicContainer className={"flex h-[500px] w-full flex-col gap-4 lg:h-[250px] lg:flex-row"}>
-            <MagicCard className="flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden p-20 shadow-2xl">
-                <div className="absolute inset-x-4 top-4">
-                    <h2 className="text-xl font-medium">Reputation</h2>
-                </div>
-                <p className="z-10 whitespace-nowrap text-4xl font-medium text-gray-800 dark:text-gray-200">
-                    <NumberTicker value={user.prefs.reputation} />
-                </p>
-                <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
-            </MagicCard>
-            <MagicCard className="flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden p-20 shadow-2xl">
-                <div className="absolute inset-x-4 top-4">
-                    <h2 className="text-xl font-medium">Questions asked</h2>
-                </div>
-                <p className="z-10 whitespace-nowrap text-4xl font-medium text-gray-800 dark:text-gray-200">
-                    <NumberTicker value={questions.total} />
-                </p>
-                <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
-            </MagicCard>
-            <MagicCard className="flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden p-20 shadow-2xl">
-                <div className="absolute inset-x-4 top-4">
-                    <h2 className="text-xl font-medium">Answers given</h2>
-                </div>
-                <p className="z-10 whitespace-nowrap text-4xl font-medium text-gray-800 dark:text-gray-200">
-                    <NumberTicker value={answers.total} />
-                </p>
-                <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
-            </MagicCard>
-        </MagicContainer>
-    );
+  const stats = [
+    {
+      label: "Reputation",
+      value: user.prefs.reputation,
+      icon: <IconSparkles className="h-4 w-4 text-primary" />,
+      tone: "border-primary/30 bg-primary/10 text-primary",
+    },
+    {
+      label: "Questions asked",
+      value: questions.total,
+      icon: <IconQuestionMark className="h-4 w-4 text-chart-2" />,
+      tone: "border-chart-2/30 bg-chart-2/12 text-chart-2",
+    },
+    {
+      label: "Answers given",
+      value: answers.total,
+      icon: <IconMessageCircle className="h-4 w-4 text-chart-3" />,
+      tone: "border-chart-3/30 bg-chart-3/12 text-chart-3",
+    },
+  ];
+
+  return (
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {stats.map((item) => (
+        <div
+          key={item.label}
+          className="rounded-2xl border border-border bg-card/80 p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-md"
+        >
+          <div
+            className={`mb-4 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${item.tone}`}
+          >
+            {item.icon}
+            {item.label}
+          </div>
+          <p className="text-4xl font-semibold tracking-tight text-foreground">
+            <NumberTicker value={item.value} />
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Page;

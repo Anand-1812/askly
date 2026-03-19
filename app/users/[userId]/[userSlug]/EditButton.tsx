@@ -15,7 +15,7 @@ const EditButton = () => {
   return (
     <Link
       href={`/users/${userId}/${userSlug}/edit`}
-      className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/70 transition-all duration-150 hover:border-white/20 hover:bg-white/10 hover:text-white"
+      className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-150 hover:border-primary/40 hover:text-primary"
     >
       <IconPencil className="h-3.5 w-3.5" />
       Edit profile

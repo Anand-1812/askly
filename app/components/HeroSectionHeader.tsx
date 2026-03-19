@@ -6,6 +6,7 @@ import ShimmerButton from "@/components/magicui/shimmer-button";
 import { useAuthStore } from "@/store/Auth";
 import Link from "next/link";
 import React from "react";
+import { IconSparkles, IconBolt, IconUsersGroup } from "@tabler/icons-react";
 
 const slugs = [
     "typescript",
@@ -41,65 +42,83 @@ const slugs = [
 ];
 
 const HeroSectionHeader = () => {
-    const { session } = useAuthStore();
+  const { session } = useAuthStore();
 
-    return (
-        <div className="container mx-auto px-4">
-            <Particles
-                className="fixed inset-0 h-full w-full"
-                quantity={500}
-                ease={100}
-                color="#ffffff"
-                refresh
-            />
-            <div className="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex items-center justify-center">
-                    <div className="space-y-4 text-center">
-                        <h1 className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-7xl font-bold leading-none tracking-tighter text-transparent">
-                            Askly
-                        </h1>
-                        <p className="text-center text-xl font-bold leading-none tracking-tighter">
-                            Ask questions, share knowledge, and collaborate with developers
-                            worldwide. Join our community and enhance your coding skills!
-                        </p>
-                        <div className="flex items-center justify-center gap-4">
-                            {session ? (
-                                <Link href="/questions/ask">
-                                    <ShimmerButton className="shadow-2xl">
-                                        <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                            Ask a question
-                                        </span>
-                                    </ShimmerButton>
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link href="/register">
-                                        <ShimmerButton className="shadow-2xl">
-                                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                                Sign up
-                                            </span>
-                                        </ShimmerButton>
-                                    </Link>
-                                    <Link
-                                        href="/login"
-                                        className="relative rounded-full border border-neutral-200 px-8 py-3 font-medium text-black dark:border-white/[0.2] dark:text-white"
-                                    >
-                                        <span>Login</span>
-                                        <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="relative max-w-[32rem] overflow-hidden">
-                        <IconCloud iconSlugs={slugs} />
-                    </div>
-                </div>
+  return (
+    <div className="container relative mx-auto px-4">
+      <Particles
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+        quantity={220}
+        ease={120}
+        color="#f6f6f6"
+        refresh
+      />
+
+      <div className="grid items-center gap-10 md:grid-cols-[1.1fr_1fr]">
+        <div className="space-y-6 text-center md:text-left">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-primary md:mx-0">
+            <IconSparkles className="h-3.5 w-3.5" />
+            Ask. Learn. Ship.
+          </div>
+
+          <h1 className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Build Better Answers
+            <span className="block bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
+              With the Askly Community
+            </span>
+          </h1>
+
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground md:mx-0 md:text-lg">
+            Ask precise technical questions, get practical help from other
+            developers, and grow your reputation by sharing what you know.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            {session ? (
+              <Link href="/questions/ask">
+                <ShimmerButton className="shadow-md">
+                  <span className="px-2 text-sm font-semibold text-primary-foreground lg:text-base">
+                    Ask a question
+                  </span>
+                </ShimmerButton>
+              </Link>
+            ) : (
+              <>
+                <Link href="/register">
+                  <ShimmerButton className="shadow-md">
+                    <span className="px-2 text-sm font-semibold text-primary-foreground lg:text-base">
+                      Create account
+                    </span>
+                  </ShimmerButton>
+                </Link>
+                <Link
+                  href="/login"
+                  className="inline-flex h-11 items-center rounded-lg border border-border bg-card px-5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:text-primary"
+                >
+                  Sign in
+                </Link>
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2.5 md:justify-start">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
+              <IconBolt className="h-3.5 w-3.5 text-primary" />
+              Fast answers
             </div>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
+              <IconUsersGroup className="h-3.5 w-3.5 text-primary" />
+              Active community
+            </div>
+          </div>
         </div>
-    );
+
+        <div className="mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-border/80 bg-card/70 p-4 shadow-xl backdrop-blur-sm">
+          <IconCloud iconSlugs={slugs} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HeroSectionHeader;

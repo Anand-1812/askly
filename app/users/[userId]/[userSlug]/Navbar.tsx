@@ -49,11 +49,11 @@ const Navbar = () => {
               href={item.href}
               className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? "bg-orange-500/15 text-orange-400 shadow-[inset_0_0_0_1px_rgba(249,115,22,0.25)]"
-                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                  ? "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(249,184,79,0.3)]"
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               }`}
             >
-              <span className={isActive ? "text-orange-400" : "text-white/30"}>
+              <span className={isActive ? "text-primary" : "text-muted-foreground"}>
                 {item.icon}
               </span>
               {item.name}
@@ -63,7 +63,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop: vertical nav */}
-      <div className="hidden overflow-hidden rounded-xl border border-white/8 bg-white/[2%] p-1.5 sm:block">
+      <div className="hidden overflow-hidden rounded-xl border border-border bg-card/70 p-1.5 sm:block">
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -72,18 +72,18 @@ const Navbar = () => {
               href={item.href}
               className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? "bg-orange-500/15 text-orange-400 shadow-[inset_0_0_0_1px_rgba(249,115,22,0.2)]"
-                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                  ? "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(249,184,79,0.28)]"
+                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               }`}
             >
               <span
-                className={`transition-colors ${isActive ? "text-orange-400" : "text-white/25"}`}
+                className={`transition-colors ${isActive ? "text-primary" : "text-muted-foreground"}`}
               >
                 {item.icon}
               </span>
               {item.name}
               {isActive && (
-                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-orange-500" />
+                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
               )}
             </Link>
           );

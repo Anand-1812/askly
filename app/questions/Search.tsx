@@ -38,19 +38,19 @@ const Search = () => {
   return (
     <form className="flex w-full items-center gap-3" onSubmit={handleSearch}>
       <div className="relative flex-1">
-        <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+        <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
           placeholder="Search questions by title or content…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-11 pl-9 pr-9 text-sm"
+          className="h-11 pl-9 pr-9 text-sm shadow-sm"
         />
         {search && (
           <button
             type="button"
             onClick={clearSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-white/60"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <IconX className="h-4 w-4" />
           </button>
@@ -58,7 +58,7 @@ const Search = () => {
       </div>
       <button
         type="submit"
-        className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-orange-500 px-5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(249,115,22,0.25)] transition-all duration-150 hover:bg-orange-400 hover:shadow-[0_0_24px_rgba(249,115,22,0.4)] active:scale-[0.98]"
+        className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-md transition-all duration-150 hover:brightness-95 active:scale-[0.98]"
       >
         <IconSearch className="h-4 w-4" />
         Search
