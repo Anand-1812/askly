@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-import getOrCreateDb from './modles/server/dbSetup'
-import getOrCreateStorage from './modles/server/storage.collection'
+import getOrCreateDb from './models/server/dbSetup'
+import getOrCreateStorage from './models/server/storageSetup'
 
-export async function proxy(request: NextRequest) {
+export async function proxy(_request: NextRequest) {
   await Promise.all([
     getOrCreateDb(),
     getOrCreateStorage(),
