@@ -4,112 +4,100 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f0f0f;
-  --card: #f8f8f8;
-  --card-foreground: #1a1a1a;
-  --popover: #ffffff;
-  --popover-foreground: #0f0f0f;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #e5e7eb;
-  --secondary-foreground: #374151;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --accent: #06b6d4;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #f9fafb;
-  --ring: #3b82f6;
-  --chart-1: #3b82f6;
-  --chart-2: #06b6d4;
-  --chart-3: #10b981;
-  --chart-4: #f59e0b;
-  --chart-5: #ef4444;
-  --sidebar: #f8f8f8;
-  --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #3b82f6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #06b6d4;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #3b82f6;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
-  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Droid Sans Mono", monospace;
-  --radius: 0.5rem;
-  --shadow-x: 0px;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.05;
-  --shadow-color: hsl(0 0% 0%);
-  --shadow-2xs: 0px 1px 2px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 1px 2px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 1px 3px hsl(0 0% 0% / 0.08);
-  --shadow: 0px 1px 3px hsl(0 0% 0% / 0.08);
-  --shadow-md: 0px 4px 6px hsl(0 0% 0% / 0.08);
-  --shadow-lg: 0px 8px 12px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0px 12px 16px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0px 16px 24px hsl(0 0% 0% / 0.12);
+  --background: #f6f3ed;
+  --foreground: #1f2522;
+  --card: #fffcf7;
+  --card-foreground: #1e2520;
+  --popover: #fffcf7;
+  --popover-foreground: #1f2522;
+  --primary: #c86a2b;
+  --primary-foreground: #fffaf4;
+  --secondary: #ece4d7;
+  --secondary-foreground: #33403a;
+  --muted: #f1ecdf;
+  --muted-foreground: #67736d;
+  --accent: #0f7a6a;
+  --accent-foreground: #f4fffb;
+  --destructive: #d14545;
+  --destructive-foreground: #fff4f4;
+  --border: #dbd2c4;
+  --input: #fff8ee;
+  --ring: #c86a2b;
+  --chart-1: #c86a2b;
+  --chart-2: #0f7a6a;
+  --chart-3: #5f8f3f;
+  --chart-4: #2d7bd0;
+  --chart-5: #d14545;
+  --sidebar: #f8f2e8;
+  --sidebar-foreground: #1f2522;
+  --sidebar-primary: #c86a2b;
+  --sidebar-primary-foreground: #fffaf4;
+  --sidebar-accent: #0f7a6a;
+  --sidebar-accent-foreground: #f4fffb;
+  --sidebar-border: #dbd2c4;
+  --sidebar-ring: #c86a2b;
+  --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  --font-serif: "Spectral", "Iowan Old Style", serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
+  --radius: 0.8rem;
+  --shadow-2xs: 0px 1px 2px hsl(34 20% 12% / 0.03);
+  --shadow-xs: 0px 1px 2px hsl(34 20% 12% / 0.05);
+  --shadow-sm: 0px 2px 6px hsl(34 20% 12% / 0.08);
+  --shadow: 0px 4px 10px hsl(34 20% 12% / 0.1);
+  --shadow-md: 0px 8px 18px hsl(34 20% 12% / 0.12);
+  --shadow-lg: 0px 16px 32px hsl(34 20% 12% / 0.14);
+  --shadow-xl: 0px 24px 46px hsl(34 20% 12% / 0.16);
+  --shadow-2xl: 0px 32px 64px hsl(34 20% 12% / 0.2);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
   color-scheme: light;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #1a1a1a;
-  --card-foreground: #e5e5e5;
-  --popover: #1a1a1a;
-  --popover-foreground: #fafafa;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #27272a;
-  --secondary-foreground: #d4d4d8;
-  --muted: #262626;
-  --muted-foreground: #a1a1a1;
-  --accent: #06b6d4;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #27272a;
-  --input: #1a1a1a;
-  --ring: #3b82f6;
-  --chart-1: #60a5fa;
-  --chart-2: #22d3ee;
-  --chart-3: #34d399;
-  --chart-4: #fbbf24;
-  --chart-5: #f87171;
-  --sidebar: #1a1a1a;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #3b82f6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #06b6d4;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #3b82f6;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
-  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Droid Sans Mono", monospace;
-  --radius: 0.5rem;
-  --shadow-x: 0px;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.05;
-  --shadow-color: hsl(0 0% 0%);
-  --shadow-2xs: 0px 1px 2px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 1px 2px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 1px 3px hsl(0 0% 0% / 0.08);
-  --shadow: 0px 1px 3px hsl(0 0% 0% / 0.08);
-  --shadow-md: 0px 4px 6px hsl(0 0% 0% / 0.08);
-  --shadow-lg: 0px 8px 12px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0px 12px 16px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0px 16px 24px hsl(0 0% 0% / 0.12);
+  --background: #0f1413;
+  --foreground: #edf2ef;
+  --card: #151d1b;
+  --card-foreground: #edf2ef;
+  --popover: #151d1b;
+  --popover-foreground: #edf2ef;
+  --primary: #ef9f66;
+  --primary-foreground: #1d120a;
+  --secondary: #202a28;
+  --secondary-foreground: #dce6e2;
+  --muted: #1d2523;
+  --muted-foreground: #9fb1aa;
+  --accent: #4dd6c2;
+  --accent-foreground: #062621;
+  --destructive: #f16f6f;
+  --destructive-foreground: #2a0808;
+  --border: #2c3a37;
+  --input: #18201e;
+  --ring: #ef9f66;
+  --chart-1: #ef9f66;
+  --chart-2: #4dd6c2;
+  --chart-3: #98c571;
+  --chart-4: #76b2ef;
+  --chart-5: #f16f6f;
+  --sidebar: #121816;
+  --sidebar-foreground: #edf2ef;
+  --sidebar-primary: #ef9f66;
+  --sidebar-primary-foreground: #1d120a;
+  --sidebar-accent: #4dd6c2;
+  --sidebar-accent-foreground: #062621;
+  --sidebar-border: #2c3a37;
+  --sidebar-ring: #ef9f66;
+  --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  --font-serif: "Spectral", "Iowan Old Style", serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
+  --radius: 0.8rem;
+  --shadow-2xs: 0px 1px 2px hsl(160 16% 4% / 0.35);
+  --shadow-xs: 0px 1px 2px hsl(160 16% 4% / 0.45);
+  --shadow-sm: 0px 2px 7px hsl(160 16% 2% / 0.52);
+  --shadow: 0px 5px 12px hsl(160 16% 2% / 0.58);
+  --shadow-md: 0px 8px 20px hsl(160 16% 2% / 0.62);
+  --shadow-lg: 0px 16px 34px hsl(160 16% 2% / 0.68);
+  --shadow-xl: 0px 24px 46px hsl(160 16% 2% / 0.72);
+  --shadow-2xl: 0px 32px 64px hsl(160 16% 2% / 0.8);
   color-scheme: dark;
 }
 
@@ -172,7 +160,7 @@ html {
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/40;
   }
 
   body {
@@ -184,14 +172,57 @@ html {
   }
 }
 
+.site-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.site-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(50% 55% at 12% 8%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 74%),
+    radial-gradient(40% 48% at 88% 12%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 76%),
+    radial-gradient(65% 70% at 50% 100%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 82%),
+    var(--background);
+}
+
+.site-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 16%, transparent) 1px, transparent 0);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  pointer-events: none;
+}
+
+.page-shell {
+  position: relative;
+}
+
+.page-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--card) 74%, transparent), transparent 25%);
+  pointer-events: none;
+}
+
 ::selection {
-  background-color: rgba(59, 130, 246, 0.2);
+  background-color: color-mix(in oklab, var(--primary) 22%, transparent);
   color: var(--foreground);
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.58rem;
+  height: 0.58rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -199,43 +230,35 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: color-mix(in oklab, var(--foreground) 34%, transparent);
 }
 
 .w-md-editor {
-  background-color: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 0.5rem !important;
+  background-color: color-mix(in oklab, var(--card) 85%, transparent) !important;
+  border: 1px solid color-mix(in oklab, var(--border) 86%, transparent) !important;
+  border-radius: 0.8rem !important;
   box-shadow: none !important;
 }
 
 .w-md-editor-toolbar {
-  background-color: var(--background) !important;
-  border-bottom: 1px solid var(--border) !important;
-  border-radius: 0.5rem 0.5rem 0 0 !important;
+  background-color: color-mix(in oklab, var(--background) 84%, transparent) !important;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 86%, transparent) !important;
+  border-radius: 0.8rem 0.8rem 0 0 !important;
 }
 
 .w-md-editor-toolbar li > button {
-  color: var(--foreground/70) !important;
-  border-radius: 0.375rem !important;
+  color: var(--muted-foreground) !important;
+  border-radius: 0.4rem !important;
 }
 
 .w-md-editor-toolbar li > button:hover {
   color: var(--primary) !important;
-  background-color: rgba(59, 130, 246, 0.1) !important;
+  background-color: color-mix(in oklab, var(--primary) 14%, transparent) !important;
 }
 
 .w-md-editor-text-pre > code,

@@ -72,7 +72,7 @@ export default function Register() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card/85 p-8 shadow-xl backdrop-blur-xl">
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-border/85 bg-card/88 p-8 shadow-xl backdrop-blur-xl">
       {/* Header */}
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-2">
@@ -97,7 +97,7 @@ export default function Register() {
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-destructive/25 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground/85">
+        <div className="mb-5 rounded-xl border border-destructive/25 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground/90">
           {error}
         </div>
       )}
@@ -157,7 +157,7 @@ export default function Register() {
         </LabelInputContainer>
 
         <button
-          className="group/btn relative mt-2 flex h-11 w-full items-center justify-center rounded-lg bg-primary font-semibold text-primary-foreground shadow-md transition-all duration-200 hover:brightness-95 disabled:opacity-50"
+          className="group/btn relative mt-2 flex h-11 w-full items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground shadow-md transition-all duration-200 hover:brightness-95 disabled:opacity-50"
           type="submit"
           disabled={isLoading}
         >
@@ -185,7 +185,7 @@ export default function Register() {
               Creating account...
             </span>
           ) : (
-            "Create account ->"
+            "Create account"
           )}
           <BottomGradient />
         </button>
@@ -203,7 +203,7 @@ export default function Register() {
 
         <div className="grid grid-cols-2 gap-3">
           <button
-            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
+            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-full border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
             type="button"
             disabled={isLoading}
           >
@@ -212,7 +212,7 @@ export default function Register() {
             <BottomGradient />
           </button>
           <button
-            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
+            className="group/btn relative flex h-10 items-center justify-center gap-2 rounded-full border border-border bg-secondary text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary disabled:opacity-50"
             type="button"
             disabled={isLoading}
           >

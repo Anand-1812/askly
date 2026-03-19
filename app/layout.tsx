@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope, Spectral } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "./components/Header";
 import ThemeProvider from "./components/ThemeProvider";
+import Footer from "./components/Footer";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+const spectral = Spectral({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Askly – Ask. Answer. Evolve.",
+  title: "Askly - Ask. Answer. Evolve.",
   description:
     "Ask questions, share knowledge, and collaborate with developers worldwide. Join our community and enhance your coding skills!",
 };
@@ -27,14 +34,18 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          inter.variable,
-          inter.className,
+          manrope.variable,
+          spectral.variable,
+          manrope.className,
           "min-h-screen bg-background text-foreground antialiased",
         )}
       >
         <ThemeProvider>
-          <Header />
-          {children}
+          <div className="site-shell">
+            <Header />
+            <main className="relative z-10">{children}</main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

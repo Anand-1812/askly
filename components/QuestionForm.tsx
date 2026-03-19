@@ -28,7 +28,7 @@ const LabelInputContainer = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col gap-2 rounded-xl border border-border bg-card/75 p-5 shadow-sm",
+        "relative flex w-full flex-col gap-2 rounded-2xl border border-border/80 bg-background/70 p-5 shadow-sm",
         className,
       )}
     >
@@ -89,13 +89,16 @@ const QuestionForm = ({ question }: { question?: any }) => {
   };
 
   const create = async () => {
-    if (!formData.attachment) throw new Error("Please upload an image");
+    let attachmentId: string | null = null;
 
-    const storageResponse = await storage.createFile(
-      questionAttachmentBucket,
-      ID.unique(),
-      formData.attachment,
-    );
+    if (formData.attachment) {
+      const storageResponse = await storage.createFile(
+        questionAttachmentBucket,
+        ID.unique(),
+        formData.attachment,
+      );
+      attachmentId = storageResponse.$id;
+    }
 
     const response = await databases.createDocument(
       db,
@@ -106,7 +109,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
         content: formData.content,
         authorId: formData.authorId,
         tags: Array.from(formData.tags),
-        attachmentId: storageResponse.$id,
+        attachmentId: attachmentId,
       },
     );
 
@@ -175,7 +178,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
     <form className="space-y-4" onSubmit={submit}>
       {error && (
         <LabelInputContainer>
-          <div className="rounded-md border border-destructive/25 bg-destructive/10 p-3 text-sm text-destructive-foreground/90">
+          <div className="rounded-xl border border-destructive/25 bg-destructive/10 p-3 text-sm text-destructive-foreground/90">
             {error}
           </div>
         </LabelInputContainer>
@@ -268,7 +271,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
             />
           </div>
           <button
-            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border border-border bg-secondary px-4 text-sm font-medium text-foreground transition-all hover:border-primary/40 hover:text-primary"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-border bg-secondary px-4 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:text-primary"
             type="button"
             onClick={() => {
               if (tag.trim().length === 0) return;
@@ -287,7 +290,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
           {Array.from(formData.tags).map((tag, index) => (
             <div
               key={index}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
             >
               <span>{tag}</span>
               <button
@@ -308,7 +311,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
         </div>
       </LabelInputContainer>
       <button
-        className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-6 font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-6 font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
         disabled={loading}
       >

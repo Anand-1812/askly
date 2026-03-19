@@ -100,13 +100,13 @@ const VoteButtons = ({
   const isDownvoted = votedDocument && votedDocument.voteStatus === "downvoted";
 
   return (
-    <div className={cn("flex shrink-0 flex-col items-center gap-1", className)}>
+    <div className={cn("flex shrink-0 flex-col items-center gap-1.5", className)}>
       {/* Upvote */}
       <button
         onClick={toggleUpvote}
         title="Upvote"
         className={cn(
-          "flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-150",
+          "flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-150",
           isUpvoted
             ? "border-primary/60 bg-primary/15 text-primary shadow-sm"
             : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:bg-primary/10 hover:text-primary",
@@ -134,7 +134,7 @@ const VoteButtons = ({
         onClick={toggleDownvote}
         title="Downvote"
         className={cn(
-          "flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-150",
+          "flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-150",
           isDownvoted
             ? "border-destructive/60 bg-destructive/15 text-destructive shadow-sm"
             : "border-border bg-card text-muted-foreground hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive",

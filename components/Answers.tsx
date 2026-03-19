@@ -99,7 +99,7 @@ const Answers = ({
         {answers.documents.map((answer: any) => (
           <div
             key={answer.$id}
-            className="group relative flex gap-4 rounded-xl border border-border bg-card/80 p-5 transition-colors hover:border-primary/30"
+            className="group relative flex gap-4 rounded-2xl border border-border bg-background/75 p-5 transition-colors hover:border-primary/30"
           >
             {/* Vote column */}
             <div className="flex shrink-0 flex-col items-center pt-1">
@@ -113,10 +113,7 @@ const Answers = ({
 
             {/* Content column */}
             <div className="min-w-0 flex-1">
-              <MarkdownPreview
-                className="rounded-lg border border-border bg-background/60 p-4 text-sm"
-                source={answer.content}
-              />
+              <MarkdownPreview className="rounded-xl border border-border bg-card/70 p-4 text-sm" source={answer.content} />
 
               {/* Author row */}
               <div className="mt-4 flex items-center justify-between gap-3">
@@ -136,7 +133,7 @@ const Answers = ({
                     </button>
                   )}
 
-                  <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5">
+                  <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
                     <picture>
                       <img
                         src={avatars.getInitials(answer.author.name, 24, 24)}
@@ -182,7 +179,7 @@ const Answers = ({
 
         {user ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="overflow-hidden rounded-xl border border-border bg-card transition-colors focus-within:border-primary/40">
+            <div className="overflow-hidden rounded-2xl border border-border bg-background/75 transition-colors focus-within:border-primary/40">
               <RTE
                 value={newAnswer}
                 onChange={(value) => setNewAnswer(value || "")}
@@ -196,7 +193,7 @@ const Answers = ({
               <button
                 type="submit"
                 disabled={isSubmitting || !newAnswer.trim()}
-                className="flex h-10 shrink-0 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-md transition-all duration-150 hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-md transition-all duration-150 hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {isSubmitting ? (
                   <>
@@ -228,13 +225,13 @@ const Answers = ({
             </div>
           </form>
         ) : (
-          <div className="rounded-xl border border-border bg-card/70 p-8 text-center">
+          <div className="rounded-2xl border border-border bg-background/75 p-8 text-center">
             <p className="mb-4 text-sm text-muted-foreground">
               You need to be logged in to post an answer.
             </p>
             <Link
               href="/login"
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95"
+              className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:brightness-95"
             >
               Sign in to answer
             </Link>

@@ -38,53 +38,42 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full shrink-0 sm:w-44">
-      {/* Mobile: horizontal scrollable tabs */}
-      <div className="flex gap-1 overflow-x-auto pb-1 sm:hidden">
+    <nav className="w-full shrink-0 sm:w-52">
+      <div className="flex gap-2 overflow-x-auto pb-1 sm:hidden">
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 ${
+              className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-all ${
                 isActive
-                  ? "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(249,184,79,0.3)]"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border bg-background/75 text-muted-foreground"
               }`}
             >
-              <span className={isActive ? "text-primary" : "text-muted-foreground"}>
-                {item.icon}
-              </span>
+              {item.icon}
               {item.name}
             </Link>
           );
         })}
       </div>
 
-      {/* Desktop: vertical nav */}
-      <div className="hidden overflow-hidden rounded-xl border border-border bg-card/70 p-1.5 sm:block">
+      <div className="hidden rounded-2xl border border-border/80 bg-card/80 p-2 sm:block">
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
+              className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all ${
                 isActive
-                  ? "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(249,184,79,0.28)]"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-secondary/80 hover:text-foreground"
               }`}
             >
-              <span
-                className={`transition-colors ${isActive ? "text-primary" : "text-muted-foreground"}`}
-              >
-                {item.icon}
-              </span>
+              {item.icon}
               {item.name}
-              {isActive && (
-                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
-              )}
             </Link>
           );
         })}

@@ -20,16 +20,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16">
-      {/* Gradient glow behind the card */}
+    <div className="relative flex min-h-screen items-center justify-center px-4 pb-16 pt-32">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-[44%] -z-10 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/18 blur-3xl"
       />
 
       <BackgroundBeams />
 
-      {/* Card wrapper */}
       <div className="relative z-10 w-full max-w-md">{children}</div>
     </div>
   );

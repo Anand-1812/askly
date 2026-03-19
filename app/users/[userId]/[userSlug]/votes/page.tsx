@@ -115,9 +115,9 @@ const Page = async ({
   ];
 
   return (
-    <div>
+    <div className="space-y-4">
       {/* Header row */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-background/70 px-4 py-3">
         <p className="text-sm text-muted-foreground">
           <span className="font-semibold text-foreground">
             {votes.total.toLocaleString()}
@@ -133,7 +133,7 @@ const Page = async ({
               <Link
                 key={f.label}
                 href={f.href}
-                className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-150 ${
+                className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-150 ${
                   isActive ? f.activeClass : f.inactiveClass
                 }`}
               >
@@ -159,7 +159,7 @@ const Page = async ({
           </p>
         </div>
       ) : (
-        <div className="space-y-2.5">
+        <div className="space-y-3">
           {votes.documents.map((vote) => {
             const isUpvote = vote.voteStatus === "upvoted";
             return (

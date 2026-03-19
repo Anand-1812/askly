@@ -1,42 +1,43 @@
 import { cn } from "@/lib/utils";
-
 import { AnimatedList } from "@/components/magicui/animated-list";
 import { avatars, users } from "@/models/server/config";
 import { Models, Query } from "node-appwrite";
 import { UserPrefs } from "@/store/Auth";
 import convertDateToRelativeTime from "@/utils/relativeTime";
+import Link from "next/link";
+import slugify from "@/utils/slugify";
 
-const Notification = ({ user }: { user: Models.User<UserPrefs> }) => {
+const ContributorRow = ({ user }: { user: Models.User<UserPrefs> }) => {
   return (
     <figure
       className={cn(
-        "relative mx-auto min-h-fit w-full max-w-[420px] overflow-hidden rounded-xl border border-border bg-card/70 p-4",
-        "transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-primary/40",
+        "relative overflow-hidden rounded-xl border border-border/80 bg-background/75 p-4",
+        "transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40",
       )}
     >
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex items-center gap-3">
         <picture>
           <img
-            src={avatars.getInitials(user.name, 40, 40) as unknown as string}
+            src={avatars.getInitials(user.name, 44, 44) as unknown as string}
             alt={user.name}
-            className="rounded-2xl"
+            className="rounded-xl"
           />
         </picture>
-        <div className="flex flex-col overflow-hidden">
-          <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium text-foreground">
-            <span className="text-sm sm:text-lg">{user.name}</span>
-            <span className="mx-1">·</span>
-            <span className="text-xs text-muted-foreground">
-              {convertDateToRelativeTime(new Date(user.$updatedAt))}
-            </span>
-          </figcaption>
-          <p className="text-sm font-normal text-muted-foreground">
-            <span>Reputation</span>
-            <span className="mx-1">·</span>
-            <span className="text-xs text-primary">
-              {user.prefs.reputation}
-            </span>
+
+        <div className="min-w-0 flex-1">
+          <Link
+            href={`/users/${user.$id}/${slugify(user.name)}`}
+            className="truncate text-sm font-semibold text-foreground transition-colors hover:text-primary"
+          >
+            {user.name}
+          </Link>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            Active {convertDateToRelativeTime(new Date(user.$updatedAt))}
           </p>
+        </div>
+
+        <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+          {user.prefs.reputation} rep
         </div>
       </div>
     </figure>
@@ -54,17 +55,17 @@ export default async function TopContributers() {
 
   if (!topUsers) {
     return (
-      <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive-foreground/85">
+      <div className="rounded-xl border border-destructive/25 bg-destructive/10 p-4 text-sm text-destructive-foreground/90">
         Could not load top contributors right now.
       </div>
     );
   }
 
   return (
-    <div className="relative flex max-h-[420px] min-h-[420px] w-full max-w-[32rem] flex-col overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-card/90 to-card/70 p-6 shadow-lg">
+    <div className="rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm">
       <AnimatedList>
         {topUsers.users.map((user) => (
-          <Notification user={user as any} key={user.$id} />
+          <ContributorRow user={user as any} key={user.$id} />
         ))}
       </AnimatedList>
     </div>

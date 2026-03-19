@@ -82,7 +82,7 @@ const Comments = ({
     <div className={cn("mt-4", className)}>
       {/* Comment thread */}
       {comments.documents.length > 0 && (
-        <div className="mb-3 divide-y divide-border/70 rounded-lg border border-border bg-card/70">
+        <div className="mb-3 divide-y divide-border/70 rounded-xl border border-border bg-background/70">
           {comments.documents.map((comment: any) => (
             <div
               key={comment.$id}
@@ -121,7 +121,7 @@ const Comments = ({
       {showForm ? (
         <form
           onSubmit={handleSubmit}
-          className="rounded-lg border border-border bg-card p-3"
+          className="rounded-xl border border-border bg-background/75 p-3"
         >
           <textarea
             ref={textareaRef}
@@ -159,7 +159,7 @@ const Comments = ({
               <button
                 type="submit"
                 disabled={isSubmitting || !newComment.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-primary/15 px-3 py-1.5 text-xs font-semibold text-primary transition-all duration-150 hover:bg-primary/25 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1.5 text-xs font-semibold text-primary transition-all duration-150 hover:bg-primary/25 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <IconSend className="h-3 w-3" />
                 {isSubmitting ? "Posting…" : "Post"}

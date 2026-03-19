@@ -1,91 +1,118 @@
-import React from "react";
 import Link from "next/link";
-import {
-  IconBrandGithub,
-  IconBrandTwitter,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandTwitter, IconMail } from "@tabler/icons-react";
+import { GITHUB_REPO_URL, GITHUB_STAR_URL } from "@/lib/github";
 
-const Footer = () => {
-  const links = [
-    {
-      heading: "Platform",
-      items: [
-        { title: "Home", href: "/" },
-        { title: "Questions", href: "/questions" },
-        { title: "Ask a Question", href: "/questions/ask" },
-      ],
-    },
-    {
-      heading: "Account",
-      items: [
-        { title: "Login", href: "/(auth)/login" },
-        { title: "Register", href: "/(auth)/register" },
-      ],
-    },
-  ];
+const footerLinks = [
+  {
+    heading: "Platform",
+    items: [
+      { title: "Home", href: "/" },
+      { title: "Questions", href: "/questions" },
+      { title: "Ask a Question", href: "/questions/ask" },
+    ],
+  },
+  {
+    heading: "Account",
+    items: [
+      { title: "Login", href: "/login" },
+      { title: "Register", href: "/register" },
+      { title: "Ask a Question", href: "/questions/ask" },
+    ],
+  },
+  {
+    heading: "Resources",
+    items: [
+      { title: "Top Contributors", href: "/" },
+      { title: "Latest Questions", href: "/questions" },
+      { title: "Community Guidelines", href: "/questions" },
+    ],
+  },
+];
 
+const socials = [
+  { label: "GitHub", href: GITHUB_REPO_URL, icon: IconBrandGithub },
+  { label: "Twitter", href: "https://twitter.com", icon: IconBrandTwitter },
+  { label: "Email", href: "mailto:hello@askly.dev", icon: IconMail },
+];
+
+export default function Footer() {
   return (
-    <footer className="border-t border-border bg-card/50 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Brand */}
-          <div className="space-y-4">
-            <Link href="/" className="text-lg font-bold text-primary">
-              Askly
+    <footer className="relative mt-20 border-t border-border/80 bg-card/70 backdrop-blur-sm">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"
+      />
+
+      <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_2fr]">
+          <div className="space-y-5">
+            <Link href="/" className="inline-flex items-center gap-2 text-2xl font-semibold">
+              <span className="font-serif text-3xl text-primary">A</span>
+              <span>Askly</span>
             </Link>
-            <p className="text-sm text-foreground/60 max-w-xs">
-              A community platform for developers to ask questions, share knowledge, and grow together.
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+              A classic developer community where questions get answered clearly,
+              ideas improve fast, and learning never stops.
             </p>
-            <div className="flex items-center gap-2 pt-2">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted transition-colors text-foreground/70 hover:text-primary"
-              >
-                <IconBrandGithub className="h-4 w-4" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted transition-colors text-foreground/70 hover:text-primary"
-              >
-                <IconBrandTwitter className="h-4 w-4" />
-              </a>
+
+            <a
+              href={GITHUB_STAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex h-11 items-center gap-2 overflow-hidden rounded-full border border-primary/35 bg-primary/10 px-5 text-sm font-semibold text-primary transition-all hover:-translate-y-0.5 hover:bg-primary hover:text-primary-foreground"
+            >
+              <span className="absolute -left-10 top-0 h-full w-8 -skew-x-12 bg-white/30 opacity-0 transition-all duration-700 group-hover:left-[120%] group-hover:opacity-100" />
+              <IconBrandGithub className="h-4 w-4" />
+              Star this project on GitHub
+            </a>
+
+            <div className="flex items-center gap-2">
+              {socials.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/80 text-muted-foreground transition-all hover:border-primary/45 hover:text-primary"
+                    aria-label={social.label}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Links */}
-          {links.map((group) => (
-            <div key={group.heading}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/70 mb-4">
-                {group.heading}
-              </h3>
-              <ul className="space-y-2">
-                {group.items.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-foreground/60 hover:text-primary transition-colors"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            {footerLinks.map((group) => (
+              <div key={group.heading}>
+                <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-foreground/70">
+                  {group.heading}
+                </h3>
+                <ul className="space-y-2.5">
+                  {group.items.map((item) => (
+                    <li key={item.href + item.title}>
+                      <Link
+                        href={item.href}
+                        className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                      >
+                        {item.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-border/50 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-foreground/50">
-          <p>&copy; {new Date().getFullYear()} Askly. All rights reserved.</p>
-          <p>Made with Next.js &amp; Appwrite</p>
+        <div className="mt-10 flex flex-col gap-2 border-t border-border/80 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>Copyright {new Date().getFullYear()} Askly. All rights reserved.</p>
+          <p>Built with Next.js and Appwrite for builders who ship.</p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

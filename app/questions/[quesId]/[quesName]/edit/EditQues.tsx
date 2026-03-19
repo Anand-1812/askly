@@ -25,16 +25,16 @@ const EditQues = ({ question }: { question: QuestionDocument }) => {
   if (user?.$id !== question.authorId) return null;
 
   return (
-    <div className="block pb-20 pt-32">
-      <div className="container mx-auto px-4">
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
-          Edit your public question
-        </h1>
-        <p className="mb-8 text-sm text-muted-foreground">
-          Improve clarity, add missing context, and keep your question updated.
-        </p>
+    <div className="page-shell min-h-screen pb-20 pt-32">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl border border-border/80 bg-card/75 p-6 shadow-sm sm:p-8">
+          <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Edit your question
+          </h1>
+          <p className="mb-8 mt-2 text-sm text-muted-foreground sm:text-base">
+            Improve the title, add missing context, and make the issue easier to reproduce.
+          </p>
 
-        <div className="mx-auto w-full max-w-4xl">
           <QuestionForm question={question} />
         </div>
       </div>

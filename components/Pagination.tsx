@@ -46,7 +46,7 @@ const Pagination = ({
         onClick={prev}
         disabled={isPrevDisabled}
         className={cn(
-          "flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-sm font-medium transition-all duration-150",
+          "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-all duration-150",
           isPrevDisabled
             ? "cursor-not-allowed border-border/60 text-muted-foreground/50"
             : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary",
@@ -56,7 +56,7 @@ const Pagination = ({
         <span>Prev</span>
       </button>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5 rounded-full border border-border/70 bg-card/75 px-1.5 py-1">
         {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
           let pageNum: number;
 
@@ -77,10 +77,10 @@ const Pagination = ({
               key={pageNum}
               onClick={() => navigate(pageNum)}
               className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all duration-150",
+                "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all duration-150",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-md"
-                  : "border border-border bg-card text-muted-foreground hover:border-primary/35 hover:text-primary",
+                  : "text-muted-foreground hover:bg-secondary hover:text-primary",
               )}
             >
               {pageNum}
@@ -93,7 +93,7 @@ const Pagination = ({
         onClick={next}
         disabled={isNextDisabled}
         className={cn(
-          "flex h-9 items-center gap-1.5 rounded-lg border px-3.5 text-sm font-medium transition-all duration-150",
+          "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-all duration-150",
           isNextDisabled
             ? "cursor-not-allowed border-border/60 text-muted-foreground/50"
             : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-primary",

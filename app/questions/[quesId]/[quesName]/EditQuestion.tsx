@@ -23,7 +23,7 @@ const EditQuestion = ({
     <Link
       href={`/questions/${questionId}/${slugify(questionTitle)}/edit`}
       title="Edit question"
-      className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all duration-150 hover:border-primary/40 hover:text-primary"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-all duration-150 hover:border-primary/40 hover:text-primary"
     >
       <IconPencil className="h-4 w-4" />
     </Link>

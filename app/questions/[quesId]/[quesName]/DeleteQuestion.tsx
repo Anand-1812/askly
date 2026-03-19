@@ -30,7 +30,7 @@ const DeleteQuestion = ({
 
   return user?.$id === authorId ? (
     <button
-      className="flex h-9 w-9 items-center justify-center rounded-lg border border-destructive/35 bg-destructive/10 p-1 text-destructive transition-all duration-200 hover:border-destructive/50 hover:bg-destructive/20"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-destructive/35 bg-destructive/10 p-1 text-destructive transition-all duration-200 hover:border-destructive/50 hover:bg-destructive/20"
       onClick={deleteQuestion}
       title="Delete question"
     >
