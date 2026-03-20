@@ -33,7 +33,6 @@ const QuestionCard = ({ ques }: { ques: any }) => {
 
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/80 px-3 py-1 text-muted-foreground">
-omport React from "react";
             <IconArrowUp className="h-3.5 w-3.5 text-primary" />
             <span className="font-semibold text-foreground">{ques.totalVotes}</span>
             votes
