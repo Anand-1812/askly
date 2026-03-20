@@ -5,8 +5,6 @@ import dynamic from "next/dynamic";
 import Editor from "@uiw/react-md-editor";
 import { cn } from "@/lib/utils";
 
-// for more information, see https://mdxeditor.dev/editor/docs/getting-started
-
 // This is the only place InitializedMDXEditor is imported directly.
 const EditorComponent = dynamic(
     () =>
@@ -21,7 +19,7 @@ type MarkdownPreviewProps = React.ComponentProps<typeof Editor.Markdown>;
 
 const RTE = ({ className, ...props }: EditorProps) => {
   return (
-    <div data-color-mode="dark" className={cn("w-full", className)}>
+    <div className={cn("w-full bg-transparent", className)}>
       <EditorComponent {...props} />
     </div>
   );
@@ -32,7 +30,6 @@ export const MarkdownPreview = ({
   ...props
 }: MarkdownPreviewProps) => (
   <Editor.Markdown
-    data-color-mode="dark"
     className={cn("wmde-markdown !bg-transparent", className)}
     {...props}
   />

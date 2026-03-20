@@ -238,11 +238,13 @@ html {
   background: color-mix(in oklab, var(--foreground) 34%, transparent);
 }
 
+/* Editor Component Overrides */
 .w-md-editor {
   background-color: color-mix(in oklab, var(--card) 85%, transparent) !important;
   border: 1px solid color-mix(in oklab, var(--border) 86%, transparent) !important;
   border-radius: 0.8rem !important;
   box-shadow: none !important;
+  overflow: hidden !important;
 }
 
 .w-md-editor-toolbar {
@@ -261,9 +263,21 @@ html {
   background-color: color-mix(in oklab, var(--primary) 14%, transparent) !important;
 }
 
+/* Fix: Remove the default black background from content and preview panes */
+.w-md-editor-content, 
+.w-md-editor-preview,
+.w-md-editor-input {
+  background-color: transparent !important;
+}
+
 .w-md-editor-text-pre > code,
 .w-md-editor-text-input,
 .wmde-markdown {
   color: var(--foreground) !important;
   font-family: var(--font-sans) !important;
+}
+
+/* Add a subtle divider between input and preview if split */
+.w-md-editor-preview {
+  box-shadow: inset 1px 0 0 0 color-mix(in oklab, var(--border) 35%, transparent) !important;
 }

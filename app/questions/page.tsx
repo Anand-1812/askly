@@ -18,6 +18,7 @@ import {
   IconArrowUp,
   IconListDetails,
   IconFilter,
+  IconPlus,
 } from "@tabler/icons-react";
 
 const Page = async ({
@@ -52,7 +53,11 @@ const Page = async ({
   questions.documents = await Promise.all(
     questions.documents.map(async (ques) => {
       const [author, answers, votes] = await Promise.all([
-        users.get<UserPrefs>(ques.authorId),
+        users.get<UserPrefs>(ques.authorId).catch(() => ({
+            $id: ques.authorId,
+            name: "User",
+            prefs: { reputation: 0 }
+        })),
         databases.listDocuments(db, answerCollection, [
           Query.equal("questionId", ques.$id),
           Query.limit(1),
@@ -69,9 +74,9 @@ const Page = async ({
         totalAnswers: answers.total,
         totalVotes: votes.total,
         author: {
-          $id: author.$id,
-          reputation: author.prefs.reputation,
-          name: author.name,
+          $id: (author as any).$id,
+          reputation: (author as any).prefs.reputation,
+          name: (author as any).name,
         },
       };
     }),
@@ -82,104 +87,97 @@ const Page = async ({
   return (
     <div className="page-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 pb-20 pt-32 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-border/80 bg-card/70 p-6 shadow-sm sm:p-8">
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                {resolvedSearchParams.tag ? (
-                  <>
-                    Questions tagged{" "}
-                    <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-1 text-primary">
-                      {resolvedSearchParams.tag}
-                    </span>
-                  </>
-                ) : resolvedSearchParams.search ? (
-                  <>
-                    Results for{" "}
-                    <span className="text-primary">&ldquo;{resolvedSearchParams.search}&rdquo;</span>
-                  </>
-                ) : (
-                  "All Questions"
-                )}
-              </h1>
-
-              <p className="mt-2 text-sm text-muted-foreground">
-                {questions.total.toLocaleString()} {questions.total === 1 ? "question" : "questions"} found
-              </p>
-            </div>
-
-            <Link href="/questions/ask" className="shrink-0">
-              <ShimmerButton className="shadow-md">
-                <span className="text-sm font-semibold text-primary-foreground lg:text-base">
-                  Ask a question
-                </span>
-              </ShimmerButton>
-            </Link>
+        
+        {/* Header Section */}
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-2">
+            <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              {resolvedSearchParams.tag ? (
+                <>
+                  Tagged with <span className="text-primary">#{resolvedSearchParams.tag}</span>
+                </>
+              ) : resolvedSearchParams.search ? (
+                <>
+                  Search: <span className="text-primary">&ldquo;{resolvedSearchParams.search}&rdquo;</span>
+                </>
+              ) : (
+                "Explore Questions"
+              )}
+            </h1>
+            <p className="text-base text-muted-foreground">
+              Browse {questions.total.toLocaleString()} expert discussions from the community.
+            </p>
           </div>
 
-          <div className="mb-6 flex flex-wrap gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-xs font-medium text-muted-foreground">
+          <Link href="/questions/ask" className="shrink-0">
+            <ShimmerButton className="shadow-lg shadow-primary/20">
+              <span className="flex items-center gap-2 text-sm font-bold lg:text-base">
+                <IconPlus className="h-5 w-5" />
+                Ask a Question
+              </span>
+            </ShimmerButton>
+          </Link>
+        </div>
+
+        {/* Filters and Stats Bar */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border/50 bg-card/40 p-4 backdrop-blur-sm">
+          <div className="flex flex-wrap gap-3">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/50 px-3 py-1.5 text-xs font-medium text-muted-foreground">
               <IconListDetails className="h-3.5 w-3.5 text-primary" />
-              <span>
-                <span className="font-semibold text-foreground">{questions.total}</span> total
-              </span>
+              <span>{questions.total} total</span>
             </div>
-
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-xs font-medium text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/50 px-3 py-1.5 text-xs font-medium text-muted-foreground">
               <IconMessageCircle className="h-3.5 w-3.5 text-accent" />
-              <span>
-                Page <span className="font-semibold text-foreground">{resolvedSearchParams.page}</span>
-              </span>
+              <span>Page {resolvedSearchParams.page}</span>
             </div>
-
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-xs font-medium text-muted-foreground">
-              <IconFilter className="h-3.5 w-3.5 text-chart-4" />
-              <span>{isFiltered ? "Filters active" : "No filters"}</span>
-            </div>
-
             {isFiltered && (
               <Link
                 href="/questions"
-                className="inline-flex items-center rounded-full border border-border bg-background/70 px-4 py-2 text-xs font-semibold text-muted-foreground transition-all hover:border-primary/35 hover:text-primary"
+                className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition-all hover:bg-primary/20"
               >
-                Clear filters
+                <IconFilter className="h-3.5 w-3.5" />
+                Clear Filters
               </Link>
             )}
           </div>
-
-          <div className="mb-6">
+          
+          <div className="w-full md:w-72">
             <Search />
           </div>
-
-          {questions.documents.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-background/60 py-16 text-center">
-              <IconArrowUp className="mb-3 h-10 w-10 text-muted-foreground/50" />
-              <h3 className="mb-2 text-lg font-semibold text-foreground/90">No questions found</h3>
-              <p className="mb-5 max-w-sm text-sm text-muted-foreground">
-                {isFiltered
-                  ? "Try another search keyword or clear the active filters."
-                  : "Be the first person to ask a great question in this space."}
-              </p>
-              <Link href="/questions/ask">
-                <ShimmerButton>
-                  <span className="text-sm font-semibold text-primary-foreground">Ask a question</span>
-                </ShimmerButton>
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {questions.documents.map((ques) => (
-                <QuestionCard key={ques.$id} ques={ques} />
-              ))}
-            </div>
-          )}
-
-          {questions.total > 25 && (
-            <div className="mt-9">
-              <Pagination total={questions.total} limit={25} />
-            </div>
-          )}
         </div>
+
+        {/* Content Area */}
+        {questions.documents.length === 0 ? (
+          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card/20 py-24 text-center">
+            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-muted/20 text-muted-foreground/50">
+                <IconArrowUp className="h-8 w-8" />
+            </div>
+            <h3 className="mb-2 text-xl font-semibold text-foreground">No matches found</h3>
+            <p className="mb-8 max-w-sm text-sm text-muted-foreground">
+              {isFiltered
+                ? "We couldn't find anything for that search. Try broadening your keywords."
+                : "The community is quiet... be the first to start a conversation!"}
+            </p>
+            <Link href="/questions/ask">
+              <ShimmerButton>
+                <span className="text-sm font-bold">Start a Question</span>
+              </ShimmerButton>
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {questions.documents.map((ques) => (
+              <QuestionCard key={ques.$id} ques={ques} />
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {questions.total > 25 && (
+          <div className="mt-12 flex justify-center">
+            <Pagination total={questions.total} limit={25} />
+          </div>
+        )}
       </div>
     </div>
   );
