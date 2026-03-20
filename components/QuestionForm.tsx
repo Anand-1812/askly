@@ -177,8 +177,8 @@ const QuestionForm = ({ question }: { question?: any }) => {
   return (
     <form className="space-y-4" onSubmit={submit}>
       {error && (
-        <LabelInputContainer>
-          <div className="rounded-xl border border-destructive/25 bg-destructive/10 p-3 text-sm text-destructive-foreground/90">
+        <LabelInputContainer className="border-red-500/50 bg-red-500/10">
+          <div className="text-sm font-medium text-red-600 dark:text-red-400">
             {error}
           </div>
         </LabelInputContainer>
