@@ -2,16 +2,47 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
 
-const EditorComponent = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.default),
+// Only used for READ-ONLY preview rendering (question/answer display pages)
+const MarkdownPreviewComponent = dynamic(
+  () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
   { ssr: false }
 );
 
+// ─── Read-only preview (used in Answers.tsx, page.tsx, etc.) ────────────────
+export const MarkdownPreview = ({
+  source,
+  className,
+}: {
+  source: string;
+  className?: string;
+}) => {
+  const [colorMode, setColorMode] = React.useState<"light" | "dark">("light");
+
+  React.useEffect(() => {
+    const check = () =>
+      setColorMode(
+        document.documentElement.classList.contains("dark") ? "dark" : "light"
+      );
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div data-color-mode={colorMode} className={className}>
+      <MarkdownPreviewComponent source={source ?? ""} />
+    </div>
+  );
+};
+
+// ─── Editor (used in QuestionForm.tsx, Answers.tsx write form) ───────────────
 interface RTEProps {
   value?: string;
   onChange?: (value?: string) => void;
@@ -19,28 +50,20 @@ interface RTEProps {
 }
 
 const RTE = ({ className, value, onChange }: RTEProps) => {
-  const { theme } = useTheme();
-
   return (
-    <div 
-      className={cn("w-full bg-transparent", className)} 
-      // This ensures the editor UI flips colors with your theme
-      data-color-mode={theme === "dark" ? "dark" : "light"}
-    >
-      <EditorComponent
-        value={value}
-        onChange={onChange}
-        // UI/UX FIX: Set preview to "edit" to remove the double text/preview area
-        preview="edit" 
-        height={350}
-        visibleDragbar={false}
-        // Customizing the toolbar to keep it clean
-        commandsFilter={(cmd) => {
-            // Optional: Filter out specific commands if you want a minimal look
-            return cmd;
-        }}
-      />
-    </div>
+    <textarea
+      className={cn(
+        "w-full min-h-[350px] resize-y rounded-none border-0 bg-transparent px-4 py-3",
+        "font-mono text-sm text-foreground outline-none",
+        "placeholder:text-muted-foreground/60",
+        "focus:outline-none focus:ring-0",
+        className
+      )}
+      value={value ?? ""}
+      onChange={(e) => onChange?.(e.target.value)}
+      placeholder={`Describe your problem in detail. Markdown is supported.\n\nExample:\n\`\`\`js\nconsole.log('hello world');\n\`\`\``}
+      spellCheck={false}
+    />
   );
 };
 
