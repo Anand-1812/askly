@@ -1,14 +1,13 @@
 "use client";
 
 import RTE from "@/components/RTE";
-import Meteors from "@/components/magicui/meteors";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/Auth";
 import { cn } from "@/lib/utils";
 import slugify from "@/utils/slugify";
-import { IconX } from "@tabler/icons-react";
-import { Models, ID } from "appwrite";
+import { IconPlus, IconX, IconUpload } from "@tabler/icons-react";
+import { ID } from "appwrite";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { databases, storage } from "@/models/client/config";
@@ -25,29 +24,23 @@ const LabelInputContainer = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => {
-  return (
-    <div
-      className={cn(
-        "relative flex w-full flex-col space-y-2 overflow-hidden rounded-xl border border-white/20 bg-slate-950 p-4",
-        className,
-      )}
-    >
-      <Meteors number={30} />
-      {children}
-    </div>
-  );
-};
+}) => (
+  <div
+    className={cn(
+      "relative flex w-full flex-col gap-3 rounded-2xl border border-border/60 bg-background/50 p-6 shadow-sm",
+      className,
+    )}
+  >
+    {children}
+  </div>
+);
 
-/**
- * ******************************************************************************
- * ![INFO]: for buttons, refer to https://ui.aceternity.com/components/tailwindcss-buttons
- * ******************************************************************************
- */
 const QuestionForm = ({ question }: { question?: any }) => {
   const { user } = useAuthStore();
   const [tag, setTag] = React.useState("");
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const [formData, setFormData] = React.useState({
     title: String(question?.title || ""),
@@ -57,263 +50,250 @@ const QuestionForm = ({ question }: { question?: any }) => {
     attachment: null as File | null,
   });
 
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
-
-  const loadConfetti = (timeInMS = 3000) => {
-    const end = Date.now() + timeInMS; // 3 seconds
-    const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
-
+  const loadConfetti = () => {
+    const end = Date.now() + 3000;
+    const colors = ["#c86a2b", "#0f7a6a", "#5f8f3f", "#f8deb1"];
     const frame = () => {
       if (Date.now() > end) return;
-
       Confetti({
         particleCount: 2,
         angle: 60,
         spread: 55,
-        startVelocity: 60,
         origin: { x: 0, y: 0.5 },
-        colors: colors,
+        colors,
       });
       Confetti({
         particleCount: 2,
         angle: 120,
         spread: 55,
-        startVelocity: 60,
         origin: { x: 1, y: 0.5 },
-        colors: colors,
+        colors,
       });
-
       requestAnimationFrame(frame);
     };
-
     frame();
   };
 
   const create = async () => {
-    if (!formData.attachment) throw new Error("Please upload an image");
-
-    const storageResponse = await storage.createFile(
-      questionAttachmentBucket,
-      ID.unique(),
-      formData.attachment,
-    );
-
-    const response = await databases.createDocument(
-      db,
-      questionCollection,
-      ID.unique(),
-      {
-        title: formData.title,
-        content: formData.content,
-        authorId: formData.authorId,
-        tags: Array.from(formData.tags),
-        attachmentId: storageResponse.$id,
-      },
-    );
-
-    loadConfetti();
-
-    return response;
+    let attachmentId: string | null = null;
+    if (formData.attachment) {
+      const storageResponse = await storage.createFile(
+        questionAttachmentBucket,
+        ID.unique(),
+        formData.attachment,
+      );
+      attachmentId = storageResponse.$id;
+    }
+    return await databases.createDocument(db, questionCollection, ID.unique(), {
+      title: formData.title,
+      content: formData.content,
+      authorId: formData.authorId,
+      tags: Array.from(formData.tags),
+      attachmentId: attachmentId,
+    });
   };
 
   const update = async () => {
-    if (!question) throw new Error("Please provide a question");
-
+    if (!question) throw new Error("Question context missing.");
     const attachmentId = await (async () => {
-      if (!formData.attachment) return question?.attachmentId as string;
-
-      await storage.deleteFile(questionAttachmentBucket, question.attachmentId);
-
+      if (!formData.attachment) return question?.attachmentId;
+      if (question.attachmentId) {
+        await storage
+          .deleteFile(questionAttachmentBucket, question.attachmentId)
+          .catch(console.error);
+      }
       const file = await storage.createFile(
         questionAttachmentBucket,
         ID.unique(),
         formData.attachment,
       );
-
       return file.$id;
     })();
 
-    const response = await databases.updateDocument(
+    return await databases.updateDocument(
       db,
       questionCollection,
       question.$id,
       {
         title: formData.title,
         content: formData.content,
-        authorId: formData.authorId,
         tags: Array.from(formData.tags),
         attachmentId: attachmentId,
       },
     );
-
-    return response;
   };
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // didn't check for attachment because it's optional in updating
-    if (!formData.title || !formData.content || !formData.authorId) {
-      setError(() => "Please fill out all fields");
+    // Validation matches Appwrite constraints
+    if (!formData.title || formData.title.length > 100) {
+      setError("Title is required and must be under 100 characters.");
+      return;
+    }
+    if (formData.content.length < 20) {
+      setError("Please provide more detailed content (min 20 characters).");
+      return;
+    }
+    if (!user) {
+      setError("You must be logged in to publish.");
       return;
     }
 
-    setLoading(() => true);
-    setError(() => "");
-
+    setLoading(true);
+    setError("");
     try {
       const response = question ? await update() : await create();
-
+      if (!question) loadConfetti();
       router.push(`/questions/${response.$id}/${slugify(formData.title)}`);
-    } catch (error: any) {
-      setError(() => error.message);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(() => false);
   };
 
   return (
-    <form className="space-y-4" onSubmit={submit}>
+    <form className="space-y-6" onSubmit={submit}>
       {error && (
-        <LabelInputContainer>
-          <div className="text-center">
-            <span className="text-red-500">{error}</span>
-          </div>
-        </LabelInputContainer>
+        <div className="rounded-xl border border-destructive/25 bg-destructive/10 p-4 text-sm text-destructive">
+          {error}
+        </div>
       )}
+
       <LabelInputContainer>
-        <Label htmlFor="title">
-          Title Address
-          <br />
-          <small>
-            Be specific and imagine you&apos;re asking a question to another
-            person.
-          </small>
+        <Label htmlFor="title" className="text-base font-semibold">
+          Title
         </Label>
+        <p className="text-xs text-muted-foreground -mt-2">
+          Be specific. Max 100 characters.
+        </p>
         <Input
           id="title"
-          name="title"
-          placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-          type="text"
           value={formData.title}
+          maxLength={100} // Matches Appwrite DB limit
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, title: e.target.value }))
+            setFormData((p) => ({ ...p, title: e.target.value }))
           }
+          placeholder="e.g. How to use Appwrite storage with Next.js?"
         />
       </LabelInputContainer>
+
+
+
       <LabelInputContainer>
-        <Label htmlFor="content">
-          What are the details of your problem?
-          <br />
-          <small>
-            Introduce the problem and expand on what you put in the title.
-            Minimum 20 characters.
-          </small>
-        </Label>
-        <RTE
-          value={formData.content}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, content: value || "" }))
-          }
-        />
+        <Label className="text-base font-semibold">Problem Details</Label>
+        <div className="mt-2 overflow-hidden rounded-xl border border-border bg-background">
+          <RTE 
+            value={formData.content} 
+            onChange={(v) => setFormData(p => ({ ...p, content: v || "" }))} 
+          />
+        </div>
       </LabelInputContainer>
+
       <LabelInputContainer>
-        <Label htmlFor="image">
-          Image
-          <br />
-          <small>
-            Add image to your question to make it more clear and easier to
-            understand.
-          </small>
+        <Label
+          htmlFor="image"
+          className="text-base font-semibold flex items-center gap-2"
+        >
+          Supporting Image{" "}
+          <span className="text-[10px] font-normal uppercase tracking-widest text-muted-foreground">
+            (Optional)
+          </span>
         </Label>
-        <Input
-          id="image"
-          name="image"
-          accept="image/*"
-          placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-          type="file"
-          onChange={(e) => {
-            const files = e.target.files;
-            if (!files || files.length === 0) return;
-            setFormData((prev) => ({
-              ...prev,
-              attachment: files[0],
-            }));
-          }}
-        />
-      </LabelInputContainer>
-      <LabelInputContainer>
-        <Label htmlFor="tag">
-          Tags
-          <br />
-          <small>
-            Add tags to describe what your question is about. Start typing to
-            see suggestions.
-          </small>
-        </Label>
-        <div className="flex w-full gap-4">
-          <div className="w-full">
-            <Input
-              id="tag"
-              name="tag"
-              placeholder="e.g. (java c objective-c)"
-              type="text"
-              value={tag}
-              onChange={(e) => setTag(() => e.target.value)}
-            />
+        <div className="flex items-center gap-4">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary/50 text-muted-foreground">
+            <IconUpload className="h-5 w-5" />
           </div>
+          <Input
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setFormData((p) => ({
+                ...p,
+                attachment: e.target.files?.[0] || null,
+              }))
+            }
+            className="flex-1 cursor-pointer"
+          />
+        </div>
+      </LabelInputContainer>
+
+      <LabelInputContainer>
+        <Label htmlFor="tag" className="text-base font-semibold">
+          Tags
+        </Label>
+        <div className="flex gap-2">
+          <Input
+            id="tag"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            placeholder="e.g. react, nextjs"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                if (tag.trim()) {
+                  setFormData((p) => ({
+                    ...p,
+                    tags: new Set([...Array.from(p.tags), tag.trim()]),
+                  }));
+                  setTag("");
+                }
+              }
+            }}
+          />
           <button
-            className="relative shrink-0 rounded-full border border-slate-600 bg-slate-700 px-8 py-2 text-sm text-white transition duration-200 hover:shadow-2xl hover:shadow-white/[0.1]"
             type="button"
             onClick={() => {
-              if (tag.length === 0) return;
-              setFormData((prev) => ({
-                ...prev,
-                tags: new Set([...Array.from(prev.tags), tag]),
-              }));
-              setTag(() => "");
+              if (tag.trim()) {
+                setFormData((p) => ({
+                  ...p,
+                  tags: new Set([...Array.from(p.tags), tag.trim()]),
+                }));
+                setTag("");
+              }
             }}
+            className="inline-flex h-11 items-center gap-2 rounded-xl bg-secondary px-4 text-sm font-bold hover:bg-secondary/80"
           >
-            <div className="absolute inset-x-0 -top-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-teal-500 to-transparent shadow-2xl" />
-            <span className="relative z-20">Add</span>
+            <IconPlus className="h-4 w-4" /> Add
           </button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {Array.from(formData.tags).map((tag, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="group relative inline-block rounded-full bg-slate-800 p-px text-xs font-semibold leading-6 text-white no-underline shadow-2xl shadow-zinc-900">
-                <span className="absolute inset-0 overflow-hidden rounded-full">
-                  <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </span>
-                <div className="relative z-10 flex items-center space-x-2 rounded-full bg-zinc-950 px-4 py-0.5 ring-1 ring-white/10">
-                  <span>{tag}</span>
-                  <button
-                    onClick={() => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        tags: new Set(
-                          Array.from(prev.tags).filter((t) => t !== tag),
-                        ),
-                      }));
-                    }}
-                    type="button"
-                  >
-                    <IconX size={12} />
-                  </button>
-                </div>
-                <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-              </div>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {Array.from(formData.tags).map((t, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-bold text-primary"
+            >
+              {t}{" "}
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData((p) => {
+                    const n = new Set(p.tags);
+                    n.delete(t);
+                    return { ...p, tags: n };
+                  })
+                }
+                className="hover:text-foreground"
+              >
+                <IconX size={14} />
+              </button>
             </div>
           ))}
         </div>
       </LabelInputContainer>
+
       <button
-        className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
         type="submit"
         disabled={loading}
+        className="w-full sm:w-auto inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-base font-bold text-primary-foreground shadow-xl transition-all hover:translate-y-[-2px] disabled:opacity-50"
       >
-        {question ? "Update" : "Publish"}
+        {loading
+          ? "Processing..."
+          : question
+            ? "Update Question"
+            : "Publish Question"}
       </button>
     </form>
   );
