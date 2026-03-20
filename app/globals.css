@@ -1,103 +1,79 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f6f3ed;
-  --foreground: #1f2522;
-  --card: #fffcf7;
-  --card-foreground: #1e2520;
-  --popover: #fffcf7;
-  --popover-foreground: #1f2522;
-  --primary: #c86a2b;
-  --primary-foreground: #fffaf4;
-  --secondary: #ece4d7;
-  --secondary-foreground: #33403a;
-  --muted: #f1ecdf;
-  --muted-foreground: #67736d;
-  --accent: #0f7a6a;
-  --accent-foreground: #f4fffb;
-  --destructive: #d14545;
-  --destructive-foreground: #fff4f4;
-  --border: #dbd2c4;
-  --input: #fff8ee;
-  --ring: #c86a2b;
-  --chart-1: #c86a2b;
-  --chart-2: #0f7a6a;
-  --chart-3: #5f8f3f;
-  --chart-4: #2d7bd0;
-  --chart-5: #d14545;
-  --sidebar: #f8f2e8;
-  --sidebar-foreground: #1f2522;
-  --sidebar-primary: #c86a2b;
-  --sidebar-primary-foreground: #fffaf4;
-  --sidebar-accent: #0f7a6a;
-  --sidebar-accent-foreground: #f4fffb;
-  --sidebar-border: #dbd2c4;
-  --sidebar-ring: #c86a2b;
-  --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-  --font-serif: "Spectral", "Iowan Old Style", serif;
-  --font-mono: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
-  --radius: 0.8rem;
-  --shadow-2xs: 0px 1px 2px hsl(34 20% 12% / 0.03);
-  --shadow-xs: 0px 1px 2px hsl(34 20% 12% / 0.05);
-  --shadow-sm: 0px 2px 6px hsl(34 20% 12% / 0.08);
-  --shadow: 0px 4px 10px hsl(34 20% 12% / 0.1);
-  --shadow-md: 0px 8px 18px hsl(34 20% 12% / 0.12);
-  --shadow-lg: 0px 16px 32px hsl(34 20% 12% / 0.14);
-  --shadow-xl: 0px 24px 46px hsl(34 20% 12% / 0.16);
-  --shadow-2xl: 0px 32px 64px hsl(34 20% 12% / 0.2);
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
+  --background: oklch(1.0000 0 0);
+  --foreground: oklch(0.2101 0.0318 264.6645);
+  --card: oklch(1.0000 0 0);
+  --card-foreground: oklch(0.2101 0.0318 264.6645);
+  --popover: oklch(1.0000 0 0);
+  --popover-foreground: oklch(0.2101 0.0318 264.6645);
+  --primary: oklch(0.6716 0.1368 48.5130);
+  --primary-foreground: oklch(1.0000 0 0);
+  --secondary: oklch(0.5360 0.0398 196.0280);
+  --secondary-foreground: oklch(1.0000 0 0);
+  --muted: oklch(0.9670 0.0029 264.5419);
+  --muted-foreground: oklch(0.5510 0.0234 264.3637);
+  --accent: oklch(0.9491 0 0);
+  --accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(0.9851 0 0);
+  --border: oklch(0.9276 0.0058 264.5313);
+  --input: oklch(0.9276 0.0058 264.5313);
+  --ring: oklch(0.6716 0.1368 48.5130);
+  --chart-1: oklch(0.5940 0.0443 196.0233);
+  --chart-2: oklch(0.7214 0.1337 49.9802);
+  --chart-3: oklch(0.8721 0.0864 68.5474);
+  --chart-4: oklch(0.6268 0 0);
+  --chart-5: oklch(0.6830 0 0);
+  --sidebar: oklch(0.9670 0.0029 264.5419);
+  --sidebar-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-primary: oklch(0.6716 0.1368 48.5130);
+  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  --sidebar-accent: oklch(1.0000 0 0);
+  --sidebar-accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-border: oklch(0.9276 0.0058 264.5313);
+  --sidebar-ring: oklch(0.6716 0.1368 48.5130);
+  
+  --font-sans: "Geist Mono", ui-monospace, monospace;
+  --font-serif: "Spectral", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --radius: 0.75rem;
+  --shadow-sm: 0px 1px 4px 0px hsl(0 0% 0% / 0.05);
+  --shadow: 0px 1px 4px 0px hsl(0 0% 0% / 0.05);
+  --shadow-md: 0px 4px 12px 0px hsl(0 0% 0% / 0.08);
+  --shadow-lg: 0px 12px 24px -6px hsl(0 0% 0% / 0.12);
+  
   color-scheme: light;
 }
 
 .dark {
-  --background: #0f1413;
-  --foreground: #edf2ef;
-  --card: #151d1b;
-  --card-foreground: #edf2ef;
-  --popover: #151d1b;
-  --popover-foreground: #edf2ef;
-  --primary: #ef9f66;
-  --primary-foreground: #1d120a;
-  --secondary: #202a28;
-  --secondary-foreground: #dce6e2;
-  --muted: #1d2523;
-  --muted-foreground: #9fb1aa;
-  --accent: #4dd6c2;
-  --accent-foreground: #062621;
-  --destructive: #f16f6f;
-  --destructive-foreground: #2a0808;
-  --border: #2c3a37;
-  --input: #18201e;
-  --ring: #ef9f66;
-  --chart-1: #ef9f66;
-  --chart-2: #4dd6c2;
-  --chart-3: #98c571;
-  --chart-4: #76b2ef;
-  --chart-5: #f16f6f;
-  --sidebar: #121816;
-  --sidebar-foreground: #edf2ef;
-  --sidebar-primary: #ef9f66;
-  --sidebar-primary-foreground: #1d120a;
-  --sidebar-accent: #4dd6c2;
-  --sidebar-accent-foreground: #062621;
-  --sidebar-border: #2c3a37;
-  --sidebar-ring: #ef9f66;
-  --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-  --font-serif: "Spectral", "Iowan Old Style", serif;
-  --font-mono: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
-  --radius: 0.8rem;
-  --shadow-2xs: 0px 1px 2px hsl(160 16% 4% / 0.35);
-  --shadow-xs: 0px 1px 2px hsl(160 16% 4% / 0.45);
-  --shadow-sm: 0px 2px 7px hsl(160 16% 2% / 0.52);
-  --shadow: 0px 5px 12px hsl(160 16% 2% / 0.58);
-  --shadow-md: 0px 8px 20px hsl(160 16% 2% / 0.62);
-  --shadow-lg: 0px 16px 34px hsl(160 16% 2% / 0.68);
-  --shadow-xl: 0px 24px 46px hsl(160 16% 2% / 0.72);
-  --shadow-2xl: 0px 32px 64px hsl(160 16% 2% / 0.8);
+  --background: oklch(0.1797 0.0043 308.1928);
+  --foreground: oklch(0.8109 0 0);
+  --card: oklch(0.1822 0 0);
+  --card-foreground: oklch(0.8109 0 0);
+  --popover: oklch(0.1797 0.0043 308.1928);
+  --popover-foreground: oklch(0.8109 0 0);
+  --primary: oklch(0.7214 0.1337 49.9802);
+  --primary-foreground: oklch(0.1797 0.0043 308.1928);
+  --secondary: oklch(0.5940 0.0443 196.0233);
+  --secondary-foreground: oklch(0.1797 0.0043 308.1928);
+  --muted: oklch(0.2520 0 0);
+  --muted-foreground: oklch(0.6268 0 0);
+  --accent: oklch(0.3211 0 0);
+  --accent-foreground: oklch(0.8109 0 0);
+  --destructive: oklch(0.5940 0.0443 196.0233);
+  --destructive-foreground: oklch(0.1797 0.0043 308.1928);
+  --border: oklch(0.2520 0 0);
+  --input: oklch(0.2520 0 0);
+  --ring: oklch(0.7214 0.1337 49.9802);
+  
+  --shadow-sm: 0px 1px 4px 0px hsl(0 0% 0% / 0.3);
+  --shadow: 0px 4px 12px 0px hsl(0 0% 0% / 0.4);
+  --shadow-md: 0px 8px 24px 0px hsl(0 0% 0% / 0.5);
+  
   color-scheme: dark;
 }
 
@@ -121,37 +97,19 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
   --shadow-sm: var(--shadow-sm);
   --shadow: var(--shadow);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
 }
 
 html {
@@ -172,6 +130,7 @@ html {
   }
 }
 
+/* Background Gradients & Effects */
 .site-shell {
   position: relative;
   min-height: 100vh;
@@ -184,9 +143,9 @@ html {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(50% 55% at 12% 8%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 74%),
-    radial-gradient(40% 48% at 88% 12%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 76%),
-    radial-gradient(65% 70% at 50% 100%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 82%),
+    radial-gradient(55% 60% at 12% 8%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 75%),
+    radial-gradient(45% 50% at 88% 12%, color-mix(in oklab, var(--accent) 15%, transparent), transparent 75%),
+    radial-gradient(70% 75% at 50% 100%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 85%),
     var(--background);
 }
 
@@ -195,10 +154,10 @@ html {
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: 0.4;
-  background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 16%, transparent) 1px, transparent 0);
-  background-size: 34px 34px;
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  opacity: 0.35;
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 15%, transparent) 1px, transparent 0);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, black 35%, transparent 100%);
   pointer-events: none;
 }
 
@@ -211,59 +170,24 @@ html {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to bottom, color-mix(in oklab, var(--card) 74%, transparent), transparent 25%);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--card) 65%, transparent), transparent 20%);
   pointer-events: none;
 }
 
-::selection {
-  background-color: color-mix(in oklab, var(--primary) 22%, transparent);
-  color: var(--foreground);
-}
-
-::-webkit-scrollbar {
-  width: 0.58rem;
-  height: 0.58rem;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--foreground) 22%, transparent);
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--foreground) 34%, transparent);
-}
-
-/* Editor Component Overrides */
+/* Editor Fixes */
 .w-md-editor {
-  background-color: color-mix(in oklab, var(--card) 85%, transparent) !important;
-  border: 1px solid color-mix(in oklab, var(--border) 86%, transparent) !important;
-  border-radius: 0.8rem !important;
+  background-color: color-mix(in oklab, var(--card) 80%, transparent) !important;
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent) !important;
+  border-radius: var(--radius) !important;
   box-shadow: none !important;
   overflow: hidden !important;
 }
 
 .w-md-editor-toolbar {
-  background-color: color-mix(in oklab, var(--background) 84%, transparent) !important;
-  border-bottom: 1px solid color-mix(in oklab, var(--border) 86%, transparent) !important;
-  border-radius: 0.8rem 0.8rem 0 0 !important;
+  background-color: color-mix(in oklab, var(--background) 75%, transparent) !important;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent) !important;
 }
 
-.w-md-editor-toolbar li > button {
-  color: var(--muted-foreground) !important;
-  border-radius: 0.4rem !important;
-}
-
-.w-md-editor-toolbar li > button:hover {
-  color: var(--primary) !important;
-  background-color: color-mix(in oklab, var(--primary) 14%, transparent) !important;
-}
-
-/* Fix: Remove the default black background from content and preview panes */
 .w-md-editor-content, 
 .w-md-editor-preview,
 .w-md-editor-input {
@@ -272,12 +196,23 @@ html {
 
 .w-md-editor-text-pre > code,
 .w-md-editor-text-input,
-.wmde-markdown {
+.wmde-markdown,
+.wmde-markdown *,
+.w-md-editor-content textarea {
   color: var(--foreground) !important;
+  -webkit-text-fill-color: var(--foreground) !important;
   font-family: var(--font-sans) !important;
 }
 
-/* Add a subtle divider between input and preview if split */
-.w-md-editor-preview {
-  box-shadow: inset 1px 0 0 0 color-mix(in oklab, var(--border) 35%, transparent) !important;
+.wmde-markdown {
+  background-color: transparent !important;
+}
+
+/* Navbar Customization Support */
+.nav-pill {
+  @apply transition-all duration-300;
+}
+
+.nav-pill-active {
+  @apply bg-background text-primary shadow-sm ring-1 ring-border/20;
 }

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "@/store/Auth";
 import slugify from "@/utils/slugify";
+import { cn } from "@/lib/utils";
 import {
   IconMenu2,
   IconX,
@@ -14,11 +15,12 @@ import {
   IconStarFilled,
   IconLogout,
   IconChevronDown,
+  IconBolt,
 } from "@tabler/icons-react";
 
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Questions", href: "/questions" },
+  { name: "Feed", href: "/" },
+  { name: "Explore", href: "/questions" },
   { name: "Ask", href: "/questions/ask" },
 ];
 
@@ -29,36 +31,26 @@ export default function Header() {
   const [isDark, setIsDark] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const [stars, setStars] = useState(() => {
-    if (typeof window !== "undefined") {
-      return parseInt(localStorage.getItem("askly-stars") || "0", 10);
-    }
-    return 0;
-  });
-  const [hasStarred, setHasStarred] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("askly-starred") === "true";
-    }
-    return false;
-  });
-  const [showStarAnimation, setShowStarAnimation] = useState(false);
+  const [stars, setStars] = useState(0);
+  const [hasStarred, setHasStarred] = useState(false);
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
+    const savedStars = localStorage.getItem("askly-stars");
+    if (savedStars) setStars(parseInt(savedStars, 10));
+    setHasStarred(localStorage.getItem("askly-starred") === "true");
   }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsUserMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -70,37 +62,49 @@ export default function Header() {
     setIsDark(!currentlyDark);
   };
 
+  const handleStar = () => {
+    if (!hasStarred) {
+      const newStars = stars + 1;
+      setStars(newStars);
+      setHasStarred(true);
+      localStorage.setItem("askly-stars", newStars.toString());
+      localStorage.setItem("askly-starred", "true");
+    }
+  };
+
   const profileHref = user ? `/users/${user.$id}/${slugify(user.name)}` : "/login";
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/82 backdrop-blur-xl">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[72px] items-center justify-between gap-4 py-3">
-          <div className="flex min-w-0 items-center gap-3">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/80 px-3 py-1.5 text-base font-semibold text-foreground shadow-sm transition-colors hover:border-primary/40 hover:text-primary"
-            >
-              <span className="font-serif text-lg leading-none text-primary">A</span>
-              <span className="text-sm tracking-wide">Askly</span>
+    <header className="fixed inset-x-0 top-0 z-50 py-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative flex h-14 items-center justify-between rounded-full border border-border/60 bg-background/70 px-4 shadow-sm backdrop-blur-xl transition-all">
+          
+          {/* Logo Section */}
+          <div className="flex items-center gap-4">
+            <Link href="/" className="group flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:scale-105">
+                <IconBolt className="h-5 w-5" />
+              </div>
+              <span className="hidden font-mono text-sm font-bold tracking-tighter text-foreground sm:block">
+                ASKLY<span className="text-primary">.dev</span>
+              </span>
             </Link>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1 rounded-full border border-border/70 bg-card/80 p-1.5 shadow-sm">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-1 rounded-full border border-border/40 bg-muted/30 p-1">
             {navItems.map((item) => {
-              const active =
-                pathname === item.href ||
-                (item.href !== "/" && pathname.startsWith(item.href));
-
+              const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-all ${
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  }`}
+                  className={cn(
+                    "relative rounded-full px-4 py-1.5 font-mono text-xs font-semibold transition-all",
+                    active 
+                      ? "bg-background text-primary shadow-sm ring-1 ring-border/20" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
                 >
                   {item.name}
                 </Link>
@@ -108,195 +112,104 @@ export default function Header() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right Actions */}
+          <div className="flex items-center gap-2">
+            {/* Star Counter */}
             <button
-              onClick={() => {
-                if (!hasStarred) {
-                  const newStars = stars + 1;
-                  setStars(newStars);
-                  setHasStarred(true);
-                  localStorage.setItem("askly-stars", newStars.toString());
-                  localStorage.setItem("askly-starred", "true");
-                  setShowStarAnimation(true);
-                  setTimeout(() => setShowStarAnimation(false), 600);
-                }
-              }}
+              onClick={handleStar}
               disabled={hasStarred}
-              className={`group relative hidden lg:inline-flex h-10 items-center gap-1.5 overflow-hidden rounded-full border border-border bg-card/90 px-4 text-sm font-semibold transition-all ${
-                hasStarred
-                  ? "cursor-not-allowed opacity-60 text-muted-foreground"
-                  : "text-foreground hover:-translate-y-0.5 hover:border-primary/45 hover:text-primary"
-              }`}
-              title={hasStarred ? "You've already starred!" : "Star this site"}
-            >
-              <span className="absolute -left-10 top-0 h-full w-8 -skew-x-12 bg-white/25 opacity-0 transition-all duration-700 group-hover:left-[120%] group-hover:opacity-100" />
-              {showStarAnimation && (
-                <span className="absolute animate-bounce text-lg">⭐</span>
+              className={cn(
+                "hidden items-center gap-1.5 rounded-full border border-border px-3 py-1.5 transition-all hover:bg-muted lg:flex",
+                hasStarred ? "opacity-60" : "hover:border-primary/50"
               )}
-              <IconStarFilled className="h-4 w-4" />
-              <span className="font-mono">{stars}</span>
+            >
+              <IconStarFilled className={cn("h-3.5 w-3.5", hasStarred ? "text-primary" : "text-muted-foreground")} />
+              <span className="font-mono text-[10px] font-bold">{stars}</span>
             </button>
 
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/90 text-foreground transition-all hover:border-primary/35 hover:text-primary"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-all hover:bg-muted"
               aria-label="Toggle theme"
             >
-              {isDark ? <IconSun className="h-4 w-4" /> : <IconMoon className="h-4 w-4" />}
+              {isDark ? <IconSun className="h-4 w-4 text-primary" /> : <IconMoon className="h-4 w-4 text-muted-foreground" />}
             </button>
 
+            {/* Auth State */}
             {user ? (
-              <>
-                {/* User Menu Dropdown */}
-                <div className="relative" ref={userMenuRef}>
-                  <button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-full border border-border bg-card/90 px-3.5 text-sm font-semibold text-foreground transition-all hover:border-primary/35 hover:text-primary"
-                  >
-                    <IconUser className="h-4 w-4" />
-                    <span className="hidden sm:inline">Menu</span>
-                    <IconChevronDown className={`h-4 w-4 transition-transform ${isUserMenuOpen ? "rotate-180" : ""}`} />
-                  </button>
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex h-9 items-center gap-2 rounded-full border border-border bg-background px-3 transition-all hover:border-primary/50"
+                >
+                  <IconUser className="h-4 w-4 text-muted-foreground" />
+                  <IconChevronDown className={cn("h-3 w-3 transition-transform", isUserMenuOpen && "rotate-180")} />
+                </button>
 
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-xl border border-border bg-card/95 shadow-lg backdrop-blur-sm">
-                      <Link
-                        href={profileHref}
-                        className="block px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary/50 hover:text-primary rounded-t-xl"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        <div className="flex items-center gap-2">
-                          <IconUser className="h-4 w-4" />
-                          Profile
-                        </div>
-                      </Link>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setIsUserMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/10 text-left rounded-b-xl"
-                      >
-                        <div className="flex items-center gap-2">
-                          <IconLogout className="h-4 w-4" />
-                          Logout
-                        </div>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-3 w-48 overflow-hidden rounded-2xl border border-border bg-popover shadow-lg">
+                    <Link
+                      href={profileHref}
+                      className="flex items-center gap-2 px-4 py-3 font-mono text-xs font-semibold text-foreground hover:bg-muted"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <IconUser className="h-4 w-4" /> Profile
+                    </Link>
+                    <button
+                      onClick={() => { logout(); setIsUserMenuOpen(false); }}
+                      className="flex w-full items-center gap-2 px-4 py-3 font-mono text-xs font-semibold text-destructive hover:bg-destructive/10"
+                    >
+                      <IconLogout className="h-4 w-4" /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden items-center gap-2 sm:flex">
                 <Link
                   href="/login"
-                  className="inline-flex h-10 items-center rounded-full border border-border bg-card/90 px-4 text-sm font-semibold text-foreground transition-all hover:border-primary/35 hover:text-primary"
+                  className="rounded-full px-4 py-2 font-mono text-xs font-bold text-muted-foreground hover:text-foreground"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="inline-flex h-10 items-center rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:brightness-95"
+                  className="rounded-full bg-primary px-4 py-2 font-mono text-xs font-bold text-primary-foreground shadow-sm hover:brightness-110"
                 >
                   Join
                 </Link>
               </div>
             )}
 
+            {/* Mobile Menu Toggle */}
             <button
-              onClick={() => setIsOpen((prev) => !prev)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/90 text-foreground transition-all hover:border-primary/35 hover:text-primary md:hidden"
-              aria-label="Toggle menu"
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background md:hidden"
             >
               {isOpen ? <IconX className="h-5 w-5" /> : <IconMenu2 className="h-5 w-5" />}
             </button>
           </div>
         </div>
 
+        {/* Mobile Navigation Dropdown */}
         {isOpen && (
-          <nav className="mb-3 rounded-2xl border border-border bg-card/95 p-3 shadow-lg md:hidden">
-            <div className="space-y-2">
-              {navItems.map((item) => {
-                const active =
-                  pathname === item.href ||
-                  (item.href !== "/" && pathname.startsWith(item.href));
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`block rounded-xl px-4 py-2.5 text-sm font-semibold text-center transition-all ${
-                      active
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary/70 text-foreground hover:bg-secondary"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-              <button
-                onClick={() => {
-                  if (!hasStarred) {
-                    const newStars = stars + 1;
-                    setStars(newStars);
-                    setHasStarred(true);
-                    localStorage.setItem("askly-stars", newStars.toString());
-                    localStorage.setItem("askly-starred", "true");
-                    setShowStarAnimation(true);
-                    setTimeout(() => setShowStarAnimation(false), 600);
-                  }
-                }}
-                disabled={hasStarred}
-                className={`w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold transition-all ${
-                  hasStarred
-                    ? "cursor-not-allowed opacity-60 text-muted-foreground"
-                    : "text-foreground hover:border-primary/30 hover:text-primary"
-                }`}
-                title={hasStarred ? "You've already starred!" : "Star this site"}
+          <nav className="mt-3 space-y-2 rounded-2xl border border-border bg-background/90 p-3 backdrop-blur-lg md:hidden">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block rounded-xl px-4 py-3 font-mono text-xs font-bold text-muted-foreground hover:bg-muted hover:text-foreground"
               >
-                {showStarAnimation && <span className="animate-bounce text-lg">⭐</span>}
-                <IconStarFilled className="h-4 w-4" />
-                Stars ({stars})
-              </button>
-              {user ? (
-                <>
-                  <Link
-                    href={profileHref}
-                    className="block rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm font-semibold text-foreground hover:border-primary/30 hover:text-primary transition-all"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      setIsOpen(false);
-                    }}
-                    className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm font-semibold text-destructive hover:border-destructive/35 hover:bg-destructive/10 transition-all"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="block rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm font-semibold text-foreground hover:border-primary/30 hover:text-primary transition-all"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground hover:brightness-95 transition-all"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Register
-                  </Link>
-                </>
-              )}
-            </div>
+                {item.name}
+              </Link>
+            ))}
+            {!user && (
+              <div className="grid grid-cols-2 gap-2 pt-2">
+                <Link href="/login" className="rounded-xl border border-border py-2 text-center font-mono text-xs font-bold">Login</Link>
+                <Link href="/register" className="rounded-xl bg-primary py-2 text-center font-mono text-xs font-bold text-primary-foreground">Join</Link>
+              </div>
+            )}
           </nav>
         )}
       </div>
