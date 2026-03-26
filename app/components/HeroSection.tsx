@@ -30,10 +30,10 @@ export default async function HeroSection() {
             Askly Developer Community
           </span>
 
-          <h1 className="mx-auto mt-6 max-w-[18ch] whitespace-normal text-balance font-serif text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-            Ask better questions.
+          <h1 className="mx-auto mt-6 whitespace-normal font-serif text-2xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            <span className="whitespace-nowrap">Ask better questions.</span>
             <br />
-            Build better software.
+            <span className="whitespace-nowrap">Build better software.</span>
           </h1>
 
           <p className="mx-auto mt-5 max-w-[64ch] whitespace-normal text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">

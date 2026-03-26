@@ -117,9 +117,8 @@ const HeroSectionHeader = () => {
 
             {/* 2. Big headline */}
             <div className="text-center md:text-left">
-              <h1 className="text-5xl font-extrabold leading-[1.07] tracking-tight text-white sm:text-6xl lg:text-[4.25rem]">
-                <span className="block">The place where</span>
-                <span className="block">developers get</span>
+              <h1 className="mx-auto max-w-[15ch] whitespace-normal text-balance text-5xl font-extrabold leading-[1.07] tracking-tight text-white sm:mx-0 sm:max-w-[16ch] sm:text-6xl lg:text-[4.25rem]">
+                <span>The place where developers get </span>
                 <span className="relative mt-1 inline-block">
                   <span className="bg-gradient-to-br from-orange-400 via-rose-400 to-violet-500 bg-clip-text text-transparent">
                     unstuck.
