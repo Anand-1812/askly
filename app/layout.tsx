@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
-import { Manrope, Spectral } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 import Header from "./components/Header";
 import ThemeProvider from "./components/ThemeProvider";
 import Footer from "./components/Footer";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const spectral = Spectral({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Askly - Ask. Answer. Evolve.",
@@ -32,14 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          manrope.variable,
-          spectral.variable,
-          manrope.className,
-          "min-h-screen bg-background text-foreground antialiased",
-        )}
-      >
+      <body className="min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider>
           <div className="site-shell">
             <Header />

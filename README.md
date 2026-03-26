@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Askly
 
-## Getting Started
+Askly is a Next.js + Appwrite community Q&A platform.
 
-First, run the development server:
+## Local Setup
 
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Copy env file and fill values:
+```bash
+cp .env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start dev server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production Build
 
-## Learn More
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+The build uses webpack (`next build --webpack`) for stable production builds.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Vercel Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push this repo to GitHub/GitLab/Bitbucket.
+2. Import the repo into Vercel.
+3. In Vercel Project Settings -> Environment Variables, add all values from `.env.example`.
+4. Deploy.
 
-## Deploy on Vercel
+Required environment variables:
+- `NEXT_PUBLIC_APPWRITE_HOST_URL`
+- `NEXT_PUBLIC_APPWRITE_PROJECT_ID`
+- `NEXT_PUBLIC_APPWRITE_DATABASE_ID`
+- `NEXT_PUBLIC_APPWRITE_QUESTIONS_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_ANSWERS_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_COMMENTS_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_VOTES_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_QUESTION_BUCKET_ID`
+- `APPWRITE_API_KEY`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `APPWRITE_API_KEY` is server-only. Set it in Vercel, never expose it in frontend code.
+- For tags to support multiple values, Appwrite `tags` should be configured as `String[]` with max length `50` per item.

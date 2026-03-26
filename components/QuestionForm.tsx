@@ -12,6 +12,12 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { databases, storage } from "@/models/client/config";
 import {
+  TAG_MAX_LENGTH,
+  isTagTypeMismatchError,
+  normalizeTags,
+  splitTagInput,
+} from "@/utils/tags";
+import {
   db,
   questionAttachmentBucket,
   questionCollection,
@@ -46,7 +52,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
     title: String(question?.title || ""),
     content: String(question?.content || ""),
     authorId: user?.$id,
-    tags: new Set((question?.tags || []) as string[]),
+    tags: new Set(normalizeTags(question?.tags)),
     attachment: null as File | null,
   });
 
@@ -74,7 +80,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
     frame();
   };
 
-  const create = async () => {
+  const create = async (tags: string[]) => {
     let attachmentId: string | null = null;
     if (formData.attachment) {
       const storageResponse = await storage.createFile(
@@ -84,16 +90,39 @@ const QuestionForm = ({ question }: { question?: any }) => {
       );
       attachmentId = storageResponse.$id;
     }
-    return await databases.createDocument(db, questionCollection, ID.unique(), {
+    const payload = {
       title: formData.title,
       content: formData.content,
       authorId: formData.authorId,
-      tags: Array.from(formData.tags),
+      tags,
       attachmentId: attachmentId,
-    });
+    };
+
+    try {
+      return await databases.createDocument(
+        db,
+        questionCollection,
+        ID.unique(),
+        payload,
+      );
+    } catch (err: any) {
+      const message = String(err?.message || "");
+      if (!isTagTypeMismatchError(message)) throw err;
+
+      if (tags.length > 1) {
+        throw new Error(
+          'Your Appwrite "tags" field currently accepts only one string. Keep one tag for now, or change schema to String[] (max 50).',
+        );
+      }
+
+      return await databases.createDocument(db, questionCollection, ID.unique(), {
+        ...payload,
+        tags: tags[0],
+      });
+    }
   };
 
-  const update = async () => {
+  const update = async (tags: string[]) => {
     if (!question) throw new Error("Question context missing.");
     const attachmentId = await (async () => {
       if (!formData.attachment) return question?.attachmentId;
@@ -110,17 +139,55 @@ const QuestionForm = ({ question }: { question?: any }) => {
       return file.$id;
     })();
 
-    return await databases.updateDocument(
-      db,
-      questionCollection,
-      question.$id,
-      {
+    const payload = {
         title: formData.title,
         content: formData.content,
-        tags: Array.from(formData.tags),
+        tags,
         attachmentId: attachmentId,
-      },
-    );
+      };
+
+    try {
+      return await databases.updateDocument(
+        db,
+        questionCollection,
+        question.$id,
+        payload,
+      );
+    } catch (err: any) {
+      const message = String(err?.message || "");
+      if (!isTagTypeMismatchError(message)) throw err;
+
+      if (tags.length > 1) {
+        throw new Error(
+          'Your Appwrite "tags" field currently accepts only one string. Keep one tag for now, or change schema to String[] (max 50).',
+        );
+      }
+
+      return await databases.updateDocument(db, questionCollection, question.$id, {
+        ...payload,
+        tags: tags[0],
+      });
+    }
+  };
+
+  const addTagFromInput = () => {
+    const parsedTags = splitTagInput(tag);
+    if (parsedTags.length === 0) return;
+
+    const tooLongTag = parsedTags.find((tagValue) => tagValue.length > TAG_MAX_LENGTH);
+    if (tooLongTag) {
+      setError(
+        `Each tag must be ${TAG_MAX_LENGTH} characters or fewer. "${tooLongTag}" is too long.`,
+      );
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      tags: new Set([...Array.from(prev.tags), ...parsedTags]),
+    }));
+    setTag("");
+    setError("");
   };
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,14 +207,40 @@ const QuestionForm = ({ question }: { question?: any }) => {
       return;
     }
 
+    const sanitizedTags = Array.from(formData.tags)
+      .map((tagValue) => tagValue.trim())
+      .filter(Boolean);
+    if (sanitizedTags.length === 0) {
+      setError("Add at least one tag before publishing.");
+      return;
+    }
+    const tooLongTag = sanitizedTags.find(
+      (tagValue) => tagValue.length > TAG_MAX_LENGTH,
+    );
+    if (tooLongTag) {
+      setError(
+        `Each tag must be ${TAG_MAX_LENGTH} characters or fewer. "${tooLongTag}" is too long.`,
+      );
+      return;
+    }
+
     setLoading(true);
     setError("");
     try {
-      const response = question ? await update() : await create();
+      const response = question
+        ? await update(sanitizedTags)
+        : await create(sanitizedTags);
       if (!question) loadConfetti();
       router.push(`/questions/${response.$id}/${slugify(formData.title)}`);
     } catch (err: any) {
-      setError(err.message);
+      const message = String(err?.message || "Unable to publish the question.");
+      if (isTagTypeMismatchError(message)) {
+        setError(
+          'Tag schema mismatch: in Appwrite, configure "tags" as a String[] attribute (array enabled), with max length 50 per item. Temporary workaround: publish with one tag.',
+        );
+        return;
+      }
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -197,7 +290,7 @@ const QuestionForm = ({ question }: { question?: any }) => {
           className="text-base font-semibold flex items-center gap-2"
         >
           Supporting Image{" "}
-          <span className="text-[10px] font-normal uppercase tracking-widest text-muted-foreground">
+          <span className="text-xs font-normal uppercase tracking-widest text-muted-foreground">
             (Optional)
           </span>
         </Label>
@@ -229,36 +322,27 @@ const QuestionForm = ({ question }: { question?: any }) => {
             id="tag"
             value={tag}
             onChange={(e) => setTag(e.target.value)}
-            placeholder="e.g. react, nextjs"
+            placeholder="e.g. react, nextjs, appwrite"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                if (tag.trim()) {
-                  setFormData((p) => ({
-                    ...p,
-                    tags: new Set([...Array.from(p.tags), tag.trim()]),
-                  }));
-                  setTag("");
-                }
+                addTagFromInput();
               }
             }}
           />
           <button
             type="button"
-            onClick={() => {
-              if (tag.trim()) {
-                setFormData((p) => ({
-                  ...p,
-                  tags: new Set([...Array.from(p.tags), tag.trim()]),
-                }));
-                setTag("");
-              }
-            }}
+            onClick={addTagFromInput}
             className="inline-flex h-11 items-center gap-2 rounded-xl bg-secondary px-4 text-sm font-bold hover:bg-secondary/80"
           >
             <IconPlus className="h-4 w-4" /> Add
           </button>
         </div>
+        <p className="text-xs text-muted-foreground">
+          Add one or more comma-separated tags. Each tag must be {TAG_MAX_LENGTH}
+          {" "}
+          characters or fewer.
+        </p>
         <div className="flex flex-wrap gap-2 mt-2">
           {Array.from(formData.tags).map((t, i) => (
             <div

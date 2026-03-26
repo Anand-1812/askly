@@ -13,6 +13,7 @@ import QuestionCard from "@/components/QuestionCard";
 import { UserPrefs } from "@/store/Auth";
 import Pagination from "@/components/Pagination";
 import Search from "./Search";
+import { normalizeTags } from "@/utils/tags";
 import {
   IconMessageCircle,
   IconArrowUp,
@@ -71,6 +72,7 @@ const Page = async ({
 
       return {
         ...ques,
+        tags: normalizeTags(ques.tags),
         totalAnswers: answers.total,
         totalVotes: votes.total,
         author: {

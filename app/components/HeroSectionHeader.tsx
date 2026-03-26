@@ -179,7 +179,7 @@ const HeroSectionHeader = () => {
                     <p className="text-sm font-bold leading-none text-white">
                       {value}
                     </p>
-                    <p className="mt-0.5 text-[11px] leading-none text-white/40">
+                    <p className="mt-0.5 text-xs leading-none text-white/40">
                       {label}
                     </p>
                   </div>
@@ -235,7 +235,7 @@ const HeroSectionHeader = () => {
                 {avatarColors.map(({ bg, letter }, i) => (
                   <div
                     key={i}
-                    className={`flex h-7 w-7 items-center justify-center rounded-full ${bg} ring-2 ring-black text-[10px] font-bold text-black`}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full ${bg} ring-2 ring-black text-xs font-bold text-black`}
                   >
                     {letter}
                   </div>

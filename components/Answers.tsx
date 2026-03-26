@@ -150,7 +150,7 @@ const Answers = ({
                       >
                         {answer.author.name}
                       </Link>
-                      <span className="mt-0.5 block text-[10px] text-muted-foreground">
+                      <span className="mt-0.5 block text-xs text-muted-foreground">
                         {answer.author.reputation} rep
                       </span>
                     </div>

@@ -15,6 +15,7 @@ import { avatars, databases, storage, users } from "@/models/server/config";
 import { UserPrefs } from "@/store/Auth";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import slugify from "@/utils/slugify";
+import { normalizeTags } from "@/utils/tags";
 import Link from "next/link";
 import { Query } from "node-appwrite";
 import React from "react";
@@ -55,6 +56,7 @@ const Page = async ({
   ]);
 
   const author = await users.get<UserPrefs>(question.authorId);
+  const questionTags = normalizeTags(question.tags);
 
   [comments.documents, answers.documents] = await Promise.all([
     Promise.all(
@@ -198,9 +200,9 @@ const Page = async ({
                 </div>
               )}
 
-              {question.tags?.length > 0 && (
+              {questionTags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {question.tags.map((tag: string) => (
+                  {questionTags.map((tag: string) => (
                     <Link
                       key={tag}
                       href={`/questions?tag=${tag}`}

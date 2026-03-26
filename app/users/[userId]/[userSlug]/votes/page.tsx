@@ -203,7 +203,7 @@ const Page = async ({
 
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                     <span
-                      className={`rounded-md border px-1.5 py-0.5 text-[10px] font-medium ${
+                      className={`rounded-md border px-1.5 py-0.5 text-xs font-medium ${
                         vote.type === "question"
                           ? "border-chart-4/25 bg-chart-4/10 text-chart-4"
                           : "border-chart-5/25 bg-chart-5/10 text-chart-5"

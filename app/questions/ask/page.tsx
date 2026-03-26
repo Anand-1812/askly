@@ -52,15 +52,15 @@ const Page = () => {
                 
                 <ul className="space-y-5 text-sm text-muted-foreground">
                   <li className="flex gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary text-center">1</span>
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary text-center">1</span>
                     <p><strong>Be specific.</strong> Summarize the exact issue in your title.</p>
                   </li>
                   <li className="flex gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary text-center">2</span>
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary text-center">2</span>
                     <p><strong>Optional Media.</strong> Images help, but aren&apos;t required. Focus on clear code samples.</p>
                   </li>
                   <li className="flex gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary text-center">3</span>
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary text-center">3</span>
                     <p><strong>Minimal Reproducible Example.</strong> Share the smallest code snippet needed to trigger the bug.</p>
                   </li>
                 </ul>

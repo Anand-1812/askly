@@ -85,7 +85,7 @@ export default function Header() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:scale-105">
                 <IconBolt className="h-5 w-5" />
               </div>
-              <span className="hidden font-mono text-sm font-bold tracking-tighter text-foreground sm:block">
+              <span className="hidden text-sm font-bold tracking-tight text-foreground sm:block">
                 ASKLY<span className="text-primary">.dev</span>
               </span>
             </Link>
@@ -100,7 +100,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-4 py-1.5 font-mono text-xs font-semibold transition-all",
+                    "relative rounded-full px-4 py-1.5 text-sm font-semibold transition-all",
                     active 
                       ? "bg-background text-primary shadow-sm ring-1 ring-border/20" 
                       : "text-muted-foreground hover:text-foreground"
@@ -124,7 +124,7 @@ export default function Header() {
               )}
             >
               <IconStarFilled className={cn("h-3.5 w-3.5", hasStarred ? "text-primary" : "text-muted-foreground")} />
-              <span className="font-mono text-[10px] font-bold">{stars}</span>
+              <span className="text-xs font-semibold">{stars}</span>
             </button>
 
             {/* Theme Toggle */}
@@ -151,14 +151,14 @@ export default function Header() {
                   <div className="absolute right-0 mt-3 w-48 overflow-hidden rounded-2xl border border-border bg-popover shadow-lg">
                     <Link
                       href={profileHref}
-                      className="flex items-center gap-2 px-4 py-3 font-mono text-xs font-semibold text-foreground hover:bg-muted"
+                      className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-foreground hover:bg-muted"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <IconUser className="h-4 w-4" /> Profile
                     </Link>
                     <button
                       onClick={() => { logout(); setIsUserMenuOpen(false); }}
-                      className="flex w-full items-center gap-2 px-4 py-3 font-mono text-xs font-semibold text-destructive hover:bg-destructive/10"
+                      className="flex w-full items-center gap-2 px-4 py-3 text-sm font-semibold text-destructive hover:bg-destructive/10"
                     >
                       <IconLogout className="h-4 w-4" /> Logout
                     </button>
@@ -169,13 +169,13 @@ export default function Header() {
               <div className="hidden items-center gap-2 sm:flex">
                 <Link
                   href="/login"
-                  className="rounded-full px-4 py-2 font-mono text-xs font-bold text-muted-foreground hover:text-foreground"
+                  className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-full bg-primary px-4 py-2 font-mono text-xs font-bold text-primary-foreground shadow-sm hover:brightness-110"
+                  className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-110"
                 >
                   Join
                 </Link>
@@ -199,15 +199,15 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block rounded-xl px-4 py-3 font-mono text-xs font-bold text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="block rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 {item.name}
               </Link>
             ))}
             {!user && (
               <div className="grid grid-cols-2 gap-2 pt-2">
-                <Link href="/login" className="rounded-xl border border-border py-2 text-center font-mono text-xs font-bold">Login</Link>
-                <Link href="/register" className="rounded-xl bg-primary py-2 text-center font-mono text-xs font-bold text-primary-foreground">Join</Link>
+                <Link href="/login" className="rounded-xl border border-border py-2 text-center text-sm font-semibold">Login</Link>
+                <Link href="/register" className="rounded-xl bg-primary py-2 text-center text-sm font-semibold text-primary-foreground">Join</Link>
               </div>
             )}
           </nav>

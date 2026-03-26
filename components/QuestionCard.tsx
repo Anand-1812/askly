@@ -6,8 +6,11 @@ import slugify from "@/utils/slugify";
 import { avatars } from "@/models/client/config";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import { IconArrowUp, IconMessageCircle } from "@tabler/icons-react";
+import { normalizeTags } from "@/utils/tags";
 
 const QuestionCard = ({ ques }: { ques: any }) => {
+  const tags = normalizeTags(ques.tags);
+
   return (
     <article className="group rounded-2xl border border-border/80 bg-background/75 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35">
       <div className="flex flex-col gap-4">
@@ -19,7 +22,7 @@ const QuestionCard = ({ ques }: { ques: any }) => {
           </Link>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            {ques.tags.map((tag: string) => (
+            {tags.map((tag: string) => (
               <Link
                 key={tag}
                 href={`/questions?tag=${tag}`}
@@ -58,7 +61,7 @@ const QuestionCard = ({ ques }: { ques: any }) => {
               >
                 {ques.author.name}
               </Link>
-              <div className="text-[10px] text-muted-foreground">{ques.author.reputation} rep</div>
+              <div className="text-xs text-muted-foreground">{ques.author.reputation} rep</div>
             </div>
           </div>
         </div>

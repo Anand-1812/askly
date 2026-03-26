@@ -30,13 +30,13 @@ export default async function HeroSection() {
             Askly Developer Community
           </span>
 
-          <h1 className="mt-6 font-serif text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto mt-6 max-w-[18ch] whitespace-normal text-balance font-serif text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
             Ask better questions.
             <br />
             Build better software.
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mx-auto mt-5 max-w-[64ch] whitespace-normal text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             One place to ask, answer, and level up with developers who ship. No noise,
             just practical help and clear discussions.
           </p>
